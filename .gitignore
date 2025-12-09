@@ -11,5 +11,7 @@ wheels/
 
 # Secrets
 *.env
+*.log
 **/settings/**
 **/database/**
+**/logs/**
