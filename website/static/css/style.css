@@ -94,6 +94,7 @@ body {
 .division {
     max-width: 1000px;
     margin: auto;
+    padding-inline: 30px;
     overflow: hidden;
     /* border: 1px solid black; */
 }

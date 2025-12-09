@@ -1,0 +1,33 @@
+.fold-card {
+    width: 350px;
+    height: 50px;
+    display: flex;
+    border-radius: 30px;
+    overflow: hidden;
+    background-image: linear-gradient(to right, orange, white);
+}
+
+.fold-card-image {
+    width: 30%;
+    object-fit: cover;
+    justify-content: center;
+    position: relative;
+}
+
+.fold-card-image img {
+    position: absolute;
+    left: 20%;
+    width: 70%;
+    height: 50px;
+}
+
+.fold-card-text {
+    text-align: left;
+    padding-right: 10px;
+}
+
+.fold-card-text p {
+
+    font-weight: bold;
+    margin-top: 6%;
+}
