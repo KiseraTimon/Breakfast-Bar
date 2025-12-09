@@ -1,0 +1,27 @@
+Hi, thank you very much for buy this font!
+
+
+Base of my test, this font work well in Adobe Illustrator CS6,and in Adobe InDesign.
+In Adobe Photoshop Contextual Alternate just active if you:
+	- select your text
+	- deactivated Contextual Alternates button
+	- reactivate Contextual Alternates button
+	- finish
+
+- Swash for initial lowercase just active if you insert "space" before.
+- Initial and Final form active if you activate Stylistic Alternates.
+- Always activate Standard Ligatures feature
+
+For use swash please type "<" before letter or">" after letter (activate Contextual Alternate feature first)
+
+Example for my main display is:   Simplisicky>>>>>>>>
+
+If you not have software who supported to Opentype, please use PUA encoded map. (Use character Map(Windows), Font Book (Mac)
+Manual closer of final character you can find at last glyph on Character Map.
+
+
+For any problem or suggestion, don't hesitate to message me.
+
+
+
+
