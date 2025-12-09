@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 # Blueprint Object
 routes = Blueprint("routes", __name__)
