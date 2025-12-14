@@ -9,6 +9,7 @@ Breakfast Bar
 <!--Independent CSS-->
 {% block css %}
 <link rel="stylesheet" href="{{url_for('static', filename='css/home/topfold.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/home/preview.css')}}">
 {% endblock %}
 
 <!--Page Body-->
@@ -16,7 +17,10 @@ Breakfast Bar
 
 <!--Above the Fold-->
 {% include '/home/assets/topfold.html'   %}
+
 <!--Preview-->
+{% include '/home/assets/preview.html'   %}
+
 <!--How it works-->
 <!--Advert-->
 <!--Testimonials-->
