@@ -16,14 +16,17 @@ h6 {
     font-family: font38;
 }
 
+h1 {
+    font-family: font28;
+}
+
 /* p
 {
     font-family: font39;
 } */
 
 button {
-    max-width: 90px;
-    /* border-radius: 5px; */
+    width: 100px;
     padding: 8px;
     border: none;
     outline: none;
