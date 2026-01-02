@@ -8,27 +8,25 @@ Breakfast Bar
 
 <!--Independent CSS-->
 {% block css %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/home/topfold.css')}}">
-<link rel="stylesheet" href="{{url_for('static', filename='css/home/preview.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/home/index.css')}}">
 {% endblock %}
 
 <!--Page Body-->
 {% block body %}
+<!--Hero-->
+{% include '/home/assets/hero.html' %}
 
-<!--Above the Fold-->
-{% include '/home/assets/topfold.html'   %}
-
-<!--Preview-->
-{% include '/home/assets/preview.html'   %}
+<!--Popular Dishes-->
+{% include '/home/assets/popular-dishes.html' %}
 
 <!--How it works-->
-<!--Advert-->
-<!--Testimonials-->
-<!--Footer-->
-{% endblock %}
+{% include '/home/assets/how-it-works.html' %}
 
-<!--Footer-->
-{% block footer %}
+<!--Tips-->
+{% include '/home/assets/tips.html' %}
+
+<!--Reviews -->
+{% include '/home/assets/reviews.html' %}
 {% endblock %}
 
 <!--Independent JS-->
