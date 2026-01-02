@@ -9,3 +9,8 @@ def homepage():
 @routes.route("/menu")
 def menu():
     return render_template("menu/menu.html")
+
+# Services Route
+@routes.route("/services")
+def services():
+    return render_template("services/services.html")
