@@ -1,0 +1,16 @@
+/* Menu Page Extras */
+.filter-section {
+    margin-bottom: 40px;
+}
+
+.filter-btns {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-btns .btn {
+    min-width: 100px;
+    justify-content: center;
+}
