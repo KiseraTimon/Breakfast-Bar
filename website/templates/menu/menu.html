@@ -1,0 +1,28 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Menu
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/menu.css')}}">
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<!--Page Title-->
+{% include '/menu/assets/title.html' %}
+
+<!--Content Filter-->
+{% include '/menu/assets/filter.html' %}
+
+<!--Menu Grid-->
+{% include '/menu/assets/grid.html' %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+{% endblock %}
