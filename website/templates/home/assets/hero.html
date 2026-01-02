@@ -1,0 +1,43 @@
+<!-- Hero Section -->
+<section class="container hero">
+    <div class="hero-content">
+        <div class="hero-tag">
+            <span class="tag-emoji">🍒</span> Eat Healthy, Stay Healthy
+        </div>
+        <h1>Be The <span class="text-primary">First</span><br> Delivery & <br> Easy Pick Up</h1>
+        <p class="hero-desc">We will deliver your food within 30 minutes in your town. If we would fail, we will give the food free.</p>
+
+        <div class="hero-btns">
+            <a href="#" class="btn btn-primary">Order Now <i data-feather="arrow-right"></i></a>
+            <a href="#" class="btn btn-outline">Book a Table</a>
+        </div>
+
+        <div class="hero-dishes">
+            <div class="mini-dish-card">
+                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Chicken Biryani">
+                <span>Chicken Biryani</span>
+            </div>
+            <div class="mini-dish-card">
+                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Handi Mutton">
+                <span>Handi Mutton</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-image">
+        <div class="discount-badge">
+            <span class="discount-percent">10%</span>
+            <span class="discount-text">Discount for 2 orders</span>
+        </div>
+        <img src="{{url_for('static', filename='images/home/hero_burger.png')}}" alt="Delicious Burger" class="main-burger">
+
+        <div class="delivery-card">
+            <div class="delivery-avatar">
+                <img src="{{url_for('static', filename='images/home/customer.png')}}" alt="Delivery Guy"> <!-- reusing customer img for demo -->
+            </div>
+            <div class="delivery-info">
+                <span class="delivery-title">We will deliver your food within 30 minutes in your town.</span>
+            </div>
+        </div>
+    </div>
+</section>
