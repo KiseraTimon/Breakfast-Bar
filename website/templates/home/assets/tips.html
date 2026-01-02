@@ -1,0 +1,42 @@
+<!-- Eat Healthy Feature -->
+<section class="container section feature-section">
+    <div class="feature-content-left">
+            <!-- Split content, using flexbox order to swap on mobile if needed, but here text is left -->
+            <div class="feature-card">
+            <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Mini" class="mini-feature-img">
+                <span>Chicken Biryani</span>
+            </div>
+    </div>
+
+    <div class="feature-text">
+        <h2>Eat Healthy, Stay <br> Healthy</h2>
+        <div class="testimonial-small">
+            <p class="date">2 days ago</p>
+            <h4>Meet Deanna Cook, a Kids Cookbook Author</h4>
+            <div class="author-row">
+                <img src="{{url_for('static', filename='images/home/customer.png')}}" class="author-avatar" alt="Author">
+                <div>
+                    <span class="author-name">Md. Affin Foisal</span>
+                    <span class="author-role">UX/UI Designer</span>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-small" style="margin-top: 20px;">
+            <p class="date">3 days ago</p>
+            <h4>Meet Deanna Cook, a Kids Cookbook Author</h4>
+            <div class="author-row">
+                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" class="author-avatar" alt="Author">
+                <div>
+                    <span class="author-name">Md. Affin Foisal</span>
+                    <span class="author-role">UX/UI Designer</span>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="btn btn-primary mt-4">Read More <i data-feather="arrow-right"></i></a>
+    </div>
+
+    <div class="feature-image-right">
+            <div class="big-circle-bg"></div>
+            <img src="{{url_for('static', filename='images/home/chef.png')}}" alt="Healthy Eating" class="feature-main-img">
+    </div>
+</section>
