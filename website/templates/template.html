@@ -5,19 +5,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{% block title %}{% endblock %}</title>
 
-		<!--CSS-->
-		<link
-			rel="stylesheet"
-			href="{{url_for('static', filename='css/style.css')}}"
-		/>
-		<link
-			rel="stylesheet"
-			href="{{url_for('static', filename='css/app.css')}}"
-		/>
-
-		<!--Independent CSS-->
-		{% block css %} {% endblock %}
-
 		<!--Boxicons-->
 		<link
 			href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
@@ -62,9 +49,20 @@
 		<!--Google Fonts-->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-	</head>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+		<!--CSS-->
+		<link
+			rel="stylesheet"
+			href="{{url_for('static', filename='css/style.css')}}"
+		/>
+
+		<!--Independent CSS-->
+		{% block css %} {% endblock %}
+
+		<!--Feather Icons-->
+		<script src="https://unpkg.com/feather-icons"></script>
+	</head>
 	<body>
 		<!--Alerts For Flashed Messages-->
 		{% with messages = get_flashed_messages(with_categories=true) %}
@@ -132,32 +130,23 @@
 
 		<!--Header & Sidebar-->
 		{% block header %}
-		<header class="division">
-			<nav>
-				<!--Icon-->
-				<div class="nav-item nav-icon">
-					<img src="{{url_for('static', filename='images/logo.png')}}">
-				</div>
-
-				<!--Links-->
-				<div class="nav-item nav-links">
-					<ul>
-						<li>Home</li>
-						<li>Menu</li>
-						<li>Services</li>
-					</ul>
-				</div>
-
-				<!--Actions-->
-				<div class="nav-item nav-actions">
-					<ul>
-						<li><i class="ri-search-2-line"></i></li>
-						<li><i class="ri-shopping-basket-2-line"></i></li>
-						<li><i class="ri-user-line"></i></li>
-					</ul>
-				</div>
+		<header class="container header">
+			<div class="logo">
+				<div class="logo-icon">F</div>
+			</div>
+			<nav class="nav-menu">
+				<a href="#" class="nav-link active">Home</a>
+				<a href="menu.html" class="nav-link">Menu</a>
+				<a href="services.html" class="nav-link">Services</a>
+				<a href="food_carts.html" class="nav-link">Food Carts</a>
 			</nav>
-			<hr>
+			<div class="header-actions">
+				<button class="icon-btn"><i data-feather="search"></i></button>
+				<button class="icon-btn cart-btn">
+					<i data-feather="shopping-bag"></i>
+					<span class="badge">2</span>
+				</button>
+			</div>
 		</header>
 		{% endblock %}
 
@@ -167,6 +156,44 @@
 
 		<!--Footer-->
 		{% block footer %}
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container footer-grid">
+				<div class="footer-col brand-col">
+					<div class="logo-icon">F</div>
+					<p>Design amazing digital experiences that create more happy in the world.</p>
+				</div>
+				<div class="footer-col">
+					<h4>Product</h4>
+					<a href="#">Home</a>
+					<a href="#">Products <span class="badge-new">New</span></a>
+					<a href="#">About</a>
+					<a href="services.html">Contact</a>
+				</div>
+				<div class="footer-col">
+					<h4>Social</h4>
+					<a href="#">Twitter</a>
+					<a href="#">LinkedIn</a>
+					<a href="#">Facebook</a>
+					<a href="#">Dribbble</a>
+				</div>
+				<div class="footer-col">
+					<h4>Legal</h4>
+					<a href="#">Terms</a>
+					<a href="#">Privacy</a>
+					<a href="#">Cookies</a>
+					<a href="#">Settings</a>
+				</div>
+			</div>
+			<div class="container footer-bottom">
+				<p>&copy; 2023 Falcon Thought. All rights reserved.</p>
+				<div class="social-icons">
+					<i data-feather="twitter"></i>
+					<i data-feather="facebook"></i>
+					<i data-feather="instagram"></i>
+				</div>
+			</div>
+		</footer>
 		{% endblock %}
 
 		<!--Bootstrap JS-->
@@ -186,13 +213,13 @@
 			crossorigin="anonymous"
 		></script>
 
-		<!--Web Scripts-->
+		<!--CDN Scripts-->
 		<script src="https://unpkg.com/scrollreveal"></script>
 		<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+		<script>feather.replace();</script>
 
-		<!--Scripts-->
+		<!--Other Scripts-->
 		<script src="{{url_for('static', filename='js/main/main.js')}}"></script>
-		<script src="{{url_for('static', filename='js/auth/auth.js')}}"></script>
 
 		<!--Independent JS-->
 		{% block js %} {% endblock %}
