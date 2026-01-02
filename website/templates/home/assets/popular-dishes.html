@@ -1,0 +1,69 @@
+<!-- Popular Dishes -->
+<section class="container section popular-dishes">
+    <div class="section-header center">
+        <h2>Our Popular <span class="text-underline">Dishes</span></h2>
+    </div>
+
+    <div class="dishes-grid">
+        <!-- Card 1 -->
+        <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Kala Bhuna">
+                <button class="wishlist-btn"><i data-feather="heart"></i></button>
+            </div>
+            <div class="dish-info">
+                <div class="dish-rating">
+                    <i data-feather="star" class="fill-star"></i> 4.5
+                </div>
+                <h3>Kala Bhuna</h3>
+                <p class="dish-desc">We will deliver your food within 30 minutes in your town.</p>
+                <div class="dish-footer">
+                    <span class="price">$50.99</span>
+                    <button class="add-btn">Add to cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+            <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Chicken Biryani">
+                    <button class="wishlist-btn"><i data-feather="heart"></i></button>
+            </div>
+            <div class="dish-info">
+                <div class="dish-rating">
+                    <i data-feather="star" class="fill-star"></i> 4.8
+                </div>
+                <h3>Meat Curry</h3>
+                <p class="dish-desc">We will deliver your food within 30 minutes in your town.</p>
+                    <div class="dish-footer">
+                    <span class="price">$50.99</span>
+                    <button class="add-btn">Add to cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 (Reusing visual 3) -->
+            <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="Spicy Curry">
+                    <button class="wishlist-btn"><i data-feather="heart"></i></button>
+            </div>
+            <div class="dish-info">
+                <div class="dish-rating">
+                    <i data-feather="star" class="fill-star"></i> 4.9
+                </div>
+                <h3>Spicy Masala</h3>
+                <p class="dish-desc">We will deliver your food within 30 minutes in your town.</p>
+                    <div class="dish-footer">
+                    <span class="price">$50.99</span>
+                    <button class="add-btn">Add to cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="see-more-container">
+        <a href="#" class="btn btn-link">See All Dishes <i data-feather="arrow-right"></i></a>
+    </div>
+</section>
