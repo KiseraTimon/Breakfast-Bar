@@ -1,10 +1,28 @@
-<!-- Category Filter -->
+<!-- Advanced Search Filter -->
 <section class="container center filter-section">
-    <div class="filter-btns">
-        <button class="btn btn-primary">All</button>
-        <button class="btn btn-outline">Breakfast</button>
-        <button class="btn btn-outline">Lunch</button>
-        <button class="btn btn-outline">Dinner</button>
-        <button class="btn btn-outline">Drinks</button>
+    <div class="advanced-search-container">
+        <div class="search-input-wrapper">
+            <input type="text" placeholder="Search for food..." class="search-input">
+        </div>
+
+        <div class="search-filters">
+            <select class="search-select">
+                <option value="">All Categories</option>
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+                <option value="drinks">Drinks</option>
+            </select>
+
+            <select class="search-select">
+                <option value="">Price Range</option>
+                <option value="0-10">$0 - $10</option>
+                <option value="10-20">$10 - $20</option>
+                <option value="20-50">$20 - $50</option>
+                <option value="50+">$50+</option>
+            </select>
+
+            <button class="btn btn-primary">Search</button>
+        </div>
     </div>
 </section>
