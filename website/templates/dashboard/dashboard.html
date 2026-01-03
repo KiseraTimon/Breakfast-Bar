@@ -1,0 +1,83 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Dashboard
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/dashboard.css')}}">
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<!-- Dashboard Section -->
+<section class="container dashboard-container">
+
+    <!-- Sidebar -->
+    {% include '/dashboard/assets/sidebar.html' %}
+
+    <!-- Mobile Nav Placeholder (Hidden on Desktop) -->
+    {% include '/dashboard/assets/mobile-nav.html' %}
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+
+        <!--Dashboard Tab-->
+        {% include '/dashboard/assets/dash.html' %}
+
+        <!--Orders Tab-->
+        {% include '/dashboard/assets/orders.html' %}
+
+        <!--Favorites Tab-->
+        {% include '/dashboard/assets/favorites.html' %}
+
+        <!--Reservations Tab-->
+        {% include '/dashboard/assets/reservations.html' %}
+
+        <!--Settings Tab-->
+        {% include '/dashboard/assets/settings.html' %}
+    </main>
+</section>
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+<!-- Initialize Feather Icons & Tab Logic -->
+<script>
+    feather.replace();
+
+    function switchTab(tabId) {
+        // 1. Hide all tab contents
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => {
+            content.classList.remove('active');
+        });
+
+        // 2. Remove active class from sidebar links
+        const links = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
+        links.forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // 3. Show the selected tab content
+        const selectedContent = document.getElementById(tabId);
+        if (selectedContent) {
+            selectedContent.classList.add('active');
+        }
+
+        // 4. Highlight the sidebar link (and mobile link) that matches
+        // Simple way: check the onclick attribute or text content
+        links.forEach(link => {
+            if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(tabId)) {
+                link.classList.add('active');
+            }
+        });
+
+        // Re-render icons if needed (though usually not for display:none toggles)
+        // feather.replace();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+<div id="favorites" class="tab-content">
+    <div class="section-title">
+        <h2>My Favorite Dishes</h2>
+    </div>
+    <div class="favorites-grid">
+        <!-- Reusing Dish Card Structure with minor simplification -->
+        <div class="dish-card">
+                <div class="dish-image">
+                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Fav Dish">
+                <button class="wishlist-btn text-primary"><i data-feather="heart" style="fill: var(--primary);"></i></button>
+            </div>
+            <div class="dish-info">
+                <div class="dish-rating">
+                    <i data-feather="star" class="fill-star"></i> 4.8
+                </div>
+                <h3>Handi Mutton</h3>
+                <p class="dish-desc">Spicy & Delicious</p>
+            </div>
+                <div class="dish-footer">
+                <span class="price">$50.99</span>
+                <button class="add-btn">Add</button>
+            </div>
+        </div>
+
+        <div class="dish-card">
+            <div class="dish-image">
+                <img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="Fav Dish">
+                <button class="wishlist-btn text-primary"><i data-feather="heart" style="fill: var(--primary);"></i></button>
+            </div>
+            <div class="dish-info">
+                <div class="dish-rating">
+                    <i data-feather="star" class="fill-star"></i> 4.5
+                </div>
+                <h3>Spicy Curry</h3>
+                <p class="dish-desc">Rich flavors</p>
+            </div>
+            <div class="dish-footer">
+                <span class="price">$25.99</span>
+                <button class="add-btn">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

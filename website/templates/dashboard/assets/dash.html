@@ -1,0 +1,58 @@
+<div id="dashboard" class="tab-content active">
+    <div class="welcome-banner">
+        <h1>Good Morning, Alex! ☀️</h1>
+        <p>Ready for a delicious start to your day? You have <strong>150 Loyalty Beans</strong> to redeem!</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i data-feather="coffee"></i></div>
+            <div class="stat-info">
+                <h3>12</h3>
+                <p>Total Orders</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i data-feather="award"></i></div>
+            <div class="stat-info">
+                <h3>150</h3>
+                <p>Points</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i data-feather="clock"></i></div>
+            <div class="stat-info">
+                <h3>1</h3>
+                <p>Active Order</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h2>Recent Activity</h2>
+        <a href="#" onclick="switchTab('orders')" class="btn btn-link">View All <i data-feather="arrow-right"></i></a>
+    </div>
+
+    <div class="list-container">
+        <div class="list-item">
+            <div class="item-info">
+                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Breakfast" class="item-img">
+                <div class="item-details">
+                    <h4>Classic Pancakes & Coffee</h4>
+                    <span>Today, 8:30 AM • $12.50</span>
+                </div>
+            </div>
+            <span class="status-badge status-cooking">Cooking</span>
+        </div>
+        <div class="list-item">
+            <div class="item-info">
+                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Breakfast" class="item-img">
+                <div class="item-details">
+                    <h4>Avocado Toast Supreme</h4>
+                    <span>Yesterday • $15.00</span>
+                </div>
+            </div>
+                <span class="status-badge status-delivered">Delivered</span>
+        </div>
+    </div>
+</div>
