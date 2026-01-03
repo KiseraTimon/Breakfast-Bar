@@ -6,3 +6,4 @@ routes = Blueprint("routes", __name__)
 # Route Files
 from website.modules.routes import views
 from website.modules.routes import portal
+from website.modules.routes import auth
