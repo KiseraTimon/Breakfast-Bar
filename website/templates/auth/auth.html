@@ -1,0 +1,49 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Authenticate
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/auth.css')}}">
+{% endblock %}
+
+<!--Header & Sidebar-->
+{% block header%}
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+
+<!--Signin-->
+{% if request.endpoint == 'routes.signin' %}
+{% include '/auth/assets/signin.html' %}
+{% endif %}
+
+<!--Signup-->
+{% if request.endpoint == 'routes.signup' %}
+{% include '/auth/assets/signup.html' %}
+{% endif %}
+
+<!--Password Reset-->
+{% if request.endpoint == 'routes.reset' %}
+{% include '/auth/assets/reset.html' %}
+{% endif %}
+
+<!--Verification Code-->
+{% if request.endpoint == 'routes.verify' %}
+{% include '/auth/assets/verify.html' %}
+{% endif %}
+
+{% endblock %}
+
+<!--Footer-->
+{% block footer %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+{% endblock %}

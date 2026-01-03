@@ -1,0 +1,21 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2>Forgot Password</h2>
+            <p>Enter your email to receive a verification code</p>
+        </div>
+
+        <form class="auth-form" action="verification.html">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Code</button>
+        </form>
+
+        <div class="auth-footer">
+            <a href="{{url_for('routes.signin')}}" class="auth-link">Back to Sign In</a>
+        </div>
+    </div>
+</div>
