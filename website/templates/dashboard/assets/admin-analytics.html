@@ -1,0 +1,182 @@
+<!-- 5. ANALYTICS (Reference Replica) -->
+<div id="analytics" class="tab-screen">
+
+    <!-- 1. Micro Stats Row -->
+    <div class="micro-stats-row">
+        <div class="micro-card">
+            <div class="micro-label">Total Revenue</div>
+            <div class="micro-value">$45,231</div>
+        </div>
+        <div class="micro-card">
+            <div class="micro-label">Total Orders</div>
+            <div class="micro-value">1,205</div>
+        </div>
+        <div class="micro-card">
+            <div class="micro-label">Total Customers</div>
+            <div class="micro-value">856</div>
+        </div>
+        <div class="micro-card">
+            <div class="micro-label">Avg Order Value</div>
+            <div class="micro-value">$37.50</div>
+        </div>
+        <div class="micro-card">
+            <div class="micro-label">Items Sold</div>
+            <div class="micro-value">3,402</div>
+        </div>
+        <div class="micro-card">
+            <div class="micro-label">Satisfaction</div>
+            <div class="micro-value" style="color:#05CD99;">98%</div>
+        </div>
+    </div>
+
+    <!-- 2. Main Monitor Grid -->
+    <div class="monitor-grid">
+
+        <!-- Left Column: Charts -->
+        <div class="monitor-main-col">
+
+            <!-- 2x2 Area Charts -->
+            <div class="charts-2x2">
+                <!-- Chart 1: Revenue (theme-blue) -->
+                <div class="chart-card-monitor theme-blue">
+                    <div class="c-mon-header">Revenue Trend (Hourly)</div>
+                    <div class="svg-chart-container">
+                        <svg viewBox="0 0 100 40" preserveAspectRatio="none" width="100%" height="100%">
+                            <line x1="0" y1="10" x2="100" y2="10" class="chart-grid-line" />
+                            <line x1="0" y1="20" x2="100" y2="20" class="chart-grid-line" />
+                            <line x1="0" y1="30" x2="100" y2="30" class="chart-grid-line" />
+                            <!-- Curved Path -->
+                            <path d="M0 30 C 10 30, 15 15, 25 15 C 35 15, 40 5, 50 5 C 60 5, 65 20, 75 20 C 85 20, 90 10, 100 10 V 40 H 0 Z" class="chart-path-fill" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Order Volume (theme-purple) -->
+                <div class="chart-card-monitor theme-purple">
+                    <div class="c-mon-header">Order Volume</div>
+                    <div class="svg-chart-container">
+                        <svg viewBox="0 0 100 40" preserveAspectRatio="none" width="100%" height="100%">
+                            <line x1="0" y1="10" x2="100" y2="10" class="chart-grid-line" />
+                            <line x1="0" y1="20" x2="100" y2="20" class="chart-grid-line" />
+                            <line x1="0" y1="30" x2="100" y2="30" class="chart-grid-line" />
+                            <path d="M0 35 C 20 35, 30 25, 40 25 S 60 10, 70 10 S 80 25, 100 20 V 40 H 0 Z" class="chart-path-fill" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Customer Traffic (theme-green) -->
+                <div class="chart-card-monitor theme-green">
+                    <div class="c-mon-header">Customer Traffic</div>
+                    <div class="svg-chart-container">
+                        <svg viewBox="0 0 100 40" preserveAspectRatio="none" width="100%" height="100%">
+                            <line x1="0" y1="10" x2="100" y2="10" class="chart-grid-line" />
+                            <line x1="0" y1="20" x2="100" y2="20" class="chart-grid-line" />
+                            <path d="M0 30 L 10 30 L 20 20 L 30 20 L 40 10 L 60 10 L 70 25 L 80 25 L 90 15 L 100 15 V 40 H 0 Z" class="chart-path-fill" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Delivery Time (theme-red) -->
+                <div class="chart-card-monitor theme-red">
+                    <div class="c-mon-header">Avg Delivery Time (min)</div>
+                    <div class="svg-chart-container">
+                        <svg viewBox="0 0 100 40" preserveAspectRatio="none" width="100%" height="100%">
+                            <line x1="0" y1="10" x2="100" y2="10" class="chart-grid-line" />
+                            <line x1="0" y1="25" x2="100" y2="25" class="chart-grid-line" stroke="#EE5D50" stroke-opacity="0.3" />
+                            <path d="M0 30 Q 25 35, 50 15 T 100 20 V 40 H 0 Z" class="chart-path-fill" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Source & Heatmap -->
+            <div class="monitor-bottom-row">
+                <div class="chart-card-monitor" style="text-align:center;">
+                    <div class="c-mon-header">Order Sources</div>
+                    <!-- Reusing Donut Logic -->
+                    <div class="donut-chart-wrap" style="width:160px; height:160px;">
+                        <div class="donut-hole" style="width:100px; height:100px;">
+                            <span style="font-size:1.5rem; font-weight:800;">12k</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:15px; font-size:0.8rem; color:#64748B;">
+                        <span style="color:#05CD99;">● Delivery</span> &nbsp;
+                        <span style="color:#FFB547;">● Pickup</span> &nbsp;
+                        <span style="color:#EE5D50;">● Dine-in</span>
+                    </div>
+                </div>
+
+                <div class="chart-card-monitor">
+                    <div class="c-mon-header">Peak Dining Hours (Heatmap)</div>
+                    <table class="heatmap-table">
+                        <tbody>
+                            <tr>
+                                <td style="font-size:0.7rem;">Mon</td>
+                                <td class="heatmap-cell lvl-0"></td><td class="heatmap-cell lvl-0"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-0"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:0.7rem;">Tue</td>
+                                <td class="heatmap-cell lvl-0"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-0"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:0.7rem;">Wed</td>
+                                <td class="heatmap-cell lvl-0"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-0"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:0.7rem;">Thu</td>
+                                <td class="heatmap-cell lvl-0"></td><td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-0"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:0.7rem;">Fri</td>
+                                <td class="heatmap-cell lvl-1"></td><td class="heatmap-cell lvl-2"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-4"></td><td class="heatmap-cell lvl-3"></td><td class="heatmap-cell lvl-1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align:right; font-size:0.7rem; color:#aaa; margin-top:5px;">12pm -> 10pm</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Alerts List -->
+        <div class="alert-list-container">
+            <div class="c-mon-header" style="display:flex; justify-content:space-between;">
+                Kitchen Alerts <span style="font-size:0.7rem; color:#aaa;">Live</span>
+            </div>
+
+            <div class="alert-item">
+                <span>Stock Low: Milk</span>
+                <span class="alert-badge badge-error">Critical</span>
+            </div>
+            <div class="alert-item">
+                <span>Delayed Order #402</span>
+                <span class="alert-badge badge-warning">Warning</span>
+            </div>
+            <div class="alert-item">
+                <span>New Review: 5 Stars</span>
+                <span class="alert-badge badge-success">Success</span>
+            </div>
+            <div class="alert-item">
+                <span>Staff Login: Sarah</span>
+                <span class="alert-badge badge-success">Log</span>
+            </div>
+            <div class="alert-item">
+                <span>High Wait Time (>30m)</span>
+                <span class="alert-badge badge-error">Alert</span>
+            </div>
+            <div class="alert-item">
+                <span>Printer Offline</span>
+                <span class="alert-badge badge-warning">Check</span>
+            </div>
+            <div class="alert-item">
+                <span>Daily Backup</span>
+                <span class="alert-badge badge-success">Done</span>
+            </div>
+
+            <div style="margin-top:20px; text-align:center;">
+                <a href="#" class="inspect-link" style="justify-content:center;">View System Logs <i data-feather="external-link" width="12"></i></a>
+            </div>
+        </div>
+
+    </div>
+</div>

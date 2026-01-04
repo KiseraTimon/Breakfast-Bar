@@ -1,0 +1,83 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Dashboard
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/admin.css')}}">
+{% endblock %}
+
+<!--Header & Sidebar-->
+{% block header%}
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<!-- Dashboard Section -->
+<div class="admin-wrapper">
+    <!-- Sidebar -->
+    {% include '/dashboard/assets/admin-sidebar.html' %}
+
+    <main class="main-content">
+        <!--Header-->
+        {% include '/dashboard/assets/admin-header.html' %}
+
+        <!--Overview Tab-->
+        {% include '/dashboard/assets/admin-overview.html' %}
+
+        <!--Orders Tab-->
+        {% include '/dashboard/assets/admin-orders.html' %}
+
+        <!--Menu Tab-->
+        {% include '/dashboard/assets/admin-menu.html' %}
+
+        <!--Customers Tab-->
+        {% include '/dashboard/assets/admin-customers.html' %}
+
+        <!--Analytics Tab-->
+        {% include '/dashboard/assets/admin-analytics.html' %}
+    </main>
+
+</div>
+{% endblock %}
+
+<!--Footer-->
+{% block footer %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+<!-- Initialize Feather Icons & Tab Logic -->
+<script>
+        feather.replace();
+
+        function navigate(tabId, el) {
+            // 1. Hide all screens
+            document.querySelectorAll('.tab-screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            // 2. Show target
+            document.getElementById(tabId).classList.add('active');
+
+            // 3. Update Sidebar
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            el.classList.add('active');
+
+            // 4. Update Header
+            const titles = {
+                'overview': 'Main Dashboard',
+                'orders': 'Order Management',
+                'menu': 'Menu Items',
+                'customers': 'Customers',
+                'analytics': 'Analytics'
+            };
+            document.getElementById('header-title').textContent = titles[tabId];
+        }
+    </script>
+{% endblock %}
