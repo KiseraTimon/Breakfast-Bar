@@ -1,0 +1,61 @@
+<!-- Product Details -->
+<section class="container product-detail-section">
+    <div class="product-container">
+        <!-- Left: Images -->
+        <div class="product-image-gallery">
+            <div class="main-image-wrapper">
+                <button class="wishlist-btn" style="position: absolute; top: 20px; right: 20px;"><i data-feather="heart"></i></button>
+                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Chicken Biryani" class="main-image">
+            </div>
+            <div class="gallery-thumbs">
+                <div class="thumb active"><img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="View 1"></div>
+                <div class="thumb"><img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="View 2" style="transform: scaleX(-1);"></div>
+                <div class="thumb"><img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="View 3"></div> <!-- Placeholder -->
+            </div>
+        </div>
+
+        <!-- Right: Info -->
+        <div class="product-info">
+            <h1>Chicken Biryani</h1>
+            <div class="product-meta">
+                <div class="rating-large">
+                    <i data-feather="star" class="fill-star"></i> 4.8
+                </div>
+                <span class="review-count">(128 Reviews)</span>
+                <span class="badge-new" style="background: #4CAF50;">In Stock</span>
+            </div>
+
+            <div class="product-price">$12.99</div>
+
+            <p class="product-desc-short">
+                Aromatic basmati rice cooked with tender chicken pieces and a blend of traditional exotic spices. Served with raita and fresh salad. Perfect for a hearty meal.
+            </p>
+
+            <div class="product-options">
+                <div class="option-group">
+                    <span class="option-label">Extras:</span>
+                    <div class="extras-list">
+                        <input type="checkbox" id="extra1" class="extra-checkbox">
+                        <label for="extra1" class="extra-label">+ Extra Chicken ($3.00)</label>
+
+                        <input type="checkbox" id="extra2" class="extra-checkbox">
+                        <label for="extra2" class="extra-label">+ Extra Raita ($1.50)</label>
+
+                        <input type="checkbox" id="extra3" class="extra-checkbox">
+                        <label for="extra3" class="extra-label">+ Double Masala ($1.00)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-to-cart-action">
+                <div class="qty-selector">
+                    <button class="qty-btn-large">-</button>
+                    <input type="text" value="1" class="qty-input" readonly>
+                    <button class="qty-btn-large">+</button>
+                </div>
+                <button class="btn btn-primary" style="flex: 1; justify-content: center;">Add to Cart</button>
+                <button class="wishlist-btn-large"><i data-feather="share-2"></i></button>
+            </div>
+        </div>
+    </div>
+</section>

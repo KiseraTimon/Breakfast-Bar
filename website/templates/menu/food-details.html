@@ -1,0 +1,65 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Food Details
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/food-details.css')}}">
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<!--Breadcrumbs-->
+{% include '/menu/assets/breadcrumbs.html' %}
+
+<!--Product Details-->
+{% include '/menu/assets/product-details.html' %}
+
+<!--Tabs Information-->
+{% include '/menu/assets/tabs-info.html' %}
+
+<!--Related Products-->
+{% include '/menu/assets/related-products.html' %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+<script>
+    feather.replace();
+
+    // Simple tab switching logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-content-panel');
+
+    tabBtns.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabPanels.forEach(p => p.classList.remove('active'));
+
+            // Add active to clicked
+            btn.classList.add('active');
+            tabPanels[index].classList.add('active');
+        });
+    });
+
+    // Gallery thumb switch logic
+    const mainImg = document.querySelector('.main-image');
+    const thumbs = document.querySelectorAll('.thumb');
+
+    thumbs.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            thumbs.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            // In a real app we'd switch the src, here we just visual switch
+            const img = thumb.querySelector('img');
+            mainImg.src = img.src;
+            mainImg.style.transform = img.style.transform; // keep flip if any
+        });
+    });
+</script>
+{% endblock %}
