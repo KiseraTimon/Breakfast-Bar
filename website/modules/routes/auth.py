@@ -1,4 +1,4 @@
-from website.modules.routes import *
+from . import routes, render_template
 
 # Logout Route
 @routes.route("/logout")

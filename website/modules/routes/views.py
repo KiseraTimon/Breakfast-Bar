@@ -1,4 +1,4 @@
-from website.modules.routes import *
+from . import routes, render_template
 
 # Homepage Route
 @routes.route("/")
