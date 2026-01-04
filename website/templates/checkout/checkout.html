@@ -1,0 +1,271 @@
+<!--Template Reference-->
+{% extends 'template.html' %}
+
+<!--Document Title-->
+{% block title%}
+Breakfast Bar | Menu
+{% endblock %}
+
+<!--Independent CSS-->
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/checkout.css')}}">
+{% endblock %}
+
+<!--Page Body-->
+{% block body %}
+<!--Page Title-->
+{% include '/checkout/assets/title.html' %}
+
+<!--Content Filter-->
+{% include '/checkout/assets/main.html' %}
+
+<!--Menu Grid-->
+{% include '/checkout/assets/upsell.html' %}
+{% endblock %}
+
+<!--Independent JS-->
+{% block js %}
+<script>
+    // Mock Data for Cart
+    let cartItems = [
+        {
+            id: 1,
+            name: "Chicken Biryani",
+            price: 12.99,
+            quantity: 2,
+            image: "{{url_for('static', filename='images/home/dish_1.png')}}"
+        },
+        {
+            id: 2,
+            name: "Kala Bhuna",
+            price: 15.99,
+            quantity: 1,
+            image: "{{url_for('static', filename='images/home/dish_2.png')}}"
+        }
+    ];
+
+    // Mock Data for Suggestions
+    const suggestions = [
+        {
+            id: 101,
+            name: "Coke Zero",
+            price: 1.99,
+            image: "{{url_for('static', filename='images/home/dish_3.png')}}" // reusing asset for demo
+        },
+        {
+            id: 102,
+            name: "Extra Rice",
+            price: 2.50,
+            image: "{{url_for('static', filename='images/home/dish_2.png')}}" // reusing asset
+        },
+        {
+            id: 103,
+            name: "Salad Bowl",
+            price: 4.99,
+            image: "{{url_for('static', filename='images/home/dish_1.png')}}" // reusing asset
+        }
+    ];
+
+    // State
+    const DELIVERY_FEE = 5.00;
+    let discount = 0;
+    let activeCoupon = null;
+
+    const coupons = {
+        'SAVE10': 0.10, // 10% off
+        'FREESHIP': 'free_ship' // Free shipping
+    };
+
+    // Elements
+    const cartContainer = document.getElementById('cart-container');
+    const suggestionsContainer = document.getElementById('suggestions-container');
+    const subtotalEl = document.getElementById('subtotal-price');
+    const deliveryEl = document.getElementById('delivery-price');
+    const discountEl = document.getElementById('discount-price');
+    const discountRow = document.getElementById('discount-row');
+    const totalEl = document.getElementById('final-total');
+    const couponInput = document.getElementById('coupon-code');
+    const btnApplyCoupon = document.getElementById('apply-coupon');
+    const couponMsg = document.getElementById('coupon-message');
+    const paymentRadios = document.querySelectorAll('input[name="payment"]');
+    const cardDetails = document.getElementById('card-details');
+    const btnPlaceOrder = document.getElementById('place-order-btn');
+
+    // Init
+    function init() {
+        renderCart();
+        renderSuggestions();
+        calculateTotals();
+        setupEventListeners();
+    }
+
+    function renderCart() {
+        cartContainer.innerHTML = '';
+
+        if (cartItems.length === 0) {
+            cartContainer.innerHTML = '<p class="text-center" style="color:var(--text-light);">Your cart is empty.</p>';
+            return;
+        }
+
+        cartItems.forEach(item => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.innerHTML = `
+                <div class="cart-img-wrapper">
+                    <img src="${item.image}" alt="${item.name}">
+                </div>
+                <div class="cart-details">
+                    <span class="cart-title">${item.name}</span>
+                    <div class="cart-meta">
+                        <span class="cart-price">$${item.price.toFixed(2)}</span>
+                        <span class="cart-qty">x${item.quantity}</span>
+                    </div>
+                </div>
+            `;
+            cartContainer.appendChild(itemEl);
+        });
+    }
+
+    function renderSuggestions() {
+        suggestionsContainer.innerHTML = '';
+        suggestions.forEach(item => {
+            const col = document.createElement('div');
+            col.innerHTML = `
+                <div class="suggestion-card">
+                    <img src="${item.image}" class="suggestion-img" alt="${item.name}">
+                    <h4 class="suggestion-title">${item.name}</h4>
+                    <span class="suggestion-price">$${item.price.toFixed(2)}</span>
+                    <button class="btn btn-outline btn-sm-add" onclick="addItem(${item.id})">
+                        <i data-feather="plus" style="width:14px; height:14px;"></i> Add
+                    </button>
+                </div>
+            `;
+            suggestionsContainer.appendChild(col);
+        });
+        // refresh icons for newly added elements
+        if (window.feather) feather.replace();
+    }
+
+    // Exposed to window for onclick in HTML string
+    window.addItem = function (id) {
+        const itemToAdd = suggestions.find(i => i.id === id);
+        if (!itemToAdd) return;
+
+        const existing = cartItems.find(i => i.id === id);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cartItems.push({ ...itemToAdd, quantity: 1 });
+        }
+
+        renderCart();
+        calculateTotals();
+
+        // Tiny feedback
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = 'Added';
+        btn.classList.add('btn-primary');
+        btn.classList.remove('btn-outline');
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-outline');
+            if (window.feather) feather.replace();
+        }, 1000);
+    };
+
+    function calculateTotals() {
+        const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+        let currentDelivery = DELIVERY_FEE;
+        let currentDiscountAmt = 0;
+
+        // Apply Coupon Logic
+        if (activeCoupon) {
+            if (activeCoupon === 'free_ship') {
+                currentDelivery = 0;
+                currentDiscountAmt = 0; // it's just free shipping
+            } else if (typeof activeCoupon === 'number') {
+                currentDiscountAmt = subtotal * activeCoupon;
+            }
+        }
+
+        const total = subtotal + currentDelivery - currentDiscountAmt;
+
+        // Update DOM
+        subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        deliveryEl.textContent = `$${currentDelivery.toFixed(2)}`;
+
+        if (currentDiscountAmt > 0 || activeCoupon === 'free_ship') {
+            discountRow.classList.remove('hidden');
+            if (activeCoupon === 'free_ship') {
+                discountEl.textContent = 'Free Shipping';
+            } else {
+                discountEl.textContent = `-$${currentDiscountAmt.toFixed(2)}`;
+            }
+        } else {
+            discountRow.classList.add('hidden');
+        }
+
+        totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function handleCoupon() {
+        const code = couponInput.value.trim().toUpperCase();
+
+        if (!code) {
+            couponMsg.textContent = '';
+            return;
+        }
+
+        if (coupons.hasOwnProperty(code)) {
+            activeCoupon = coupons[code];
+            couponMsg.textContent = `Coupon '${code}' applied!`;
+            couponMsg.className = 'coupon-msg success';
+            calculateTotals();
+        } else {
+            couponMsg.textContent = 'Invalid coupon code';
+            couponMsg.className = 'coupon-msg error';
+            activeCoupon = null;
+            calculateTotals();
+        }
+    }
+
+    function setupEventListeners() {
+        // Coupon
+        btnApplyCoupon.addEventListener('click', handleCoupon);
+
+        // Payment Toggle
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+                e.target.closest('.payment-option').classList.add('selected');
+
+                if (e.target.value === 'card') {
+                    cardDetails.style.display = 'block';
+                } else {
+                    cardDetails.style.display = 'none';
+                }
+            });
+        });
+
+        // Place Order
+        btnPlaceOrder.addEventListener('click', () => {
+            btnPlaceOrder.innerHTML = '<i data-feather="loader" class="spin"></i> Processing...';
+            btnPlaceOrder.disabled = true;
+
+            setTimeout(() => {
+                alert('Order Placed Successfully! (This is a demo)');
+                btnPlaceOrder.innerHTML = 'Place Order <i data-feather="check-circle"></i>';
+                btnPlaceOrder.disabled = false;
+                // Ideally redirect or clear cart
+            }, 1500);
+        });
+    }
+
+    // Run
+    document.addEventListener('DOMContentLoaded', init);
+
+</script>
+{% endblock %}

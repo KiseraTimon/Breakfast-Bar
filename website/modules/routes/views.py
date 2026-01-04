@@ -19,3 +19,8 @@ def food():
 @routes.route("/services")
 def services():
     return render_template("services/services.html")
+
+# Checkout Route
+@routes.route("/checkout")
+def checkout():
+    return render_template("checkout/checkout.html")

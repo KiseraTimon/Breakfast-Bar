@@ -1,0 +1,141 @@
+<!-- Checkout Main Content -->
+<section class="container checkout-section">
+    <div class="checkout-grid">
+
+        <!-- Left Column: Forms -->
+        <div class="checkout-form-col">
+
+            <!-- Delivery Details -->
+            <div class="checkout-card">
+                <div class="card-header">
+                    <h3><i data-feather="map-pin"></i> Delivery Address</h3>
+                </div>
+                <form id="delivery-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Street Address</label>
+                        <input type="text" placeholder="123 Food Street, Apt 4" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" placeholder="New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" placeholder="+1 234 567 890" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="checkout-card">
+                <div class="card-header">
+                    <h3><i data-feather="credit-card"></i> Payment Method</h3>
+                </div>
+                <div class="payment-options">
+                    <label class="payment-option selected">
+                        <input type="radio" name="payment" value="card" checked>
+                        <span class="radio-custom"></span>
+                        <div class="payment-content">
+                            <span class="pay-title">Credit / Debit Card</span>
+                            <span class="pay-desc">Pay securely with your bank card</span>
+                        </div>
+                        <i data-feather="credit-card"></i>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="cash">
+                        <span class="radio-custom"></span>
+                        <div class="payment-content">
+                            <span class="pay-title">Cash on Delivery</span>
+                            <span class="pay-desc">Pay cash when you receive your order</span>
+                        </div>
+                        <i data-feather="dollar-sign"></i>
+                    </label>
+                </div>
+
+                <!-- Card Details (Hidden if Cash selected - handled in JS conceptually, but visible for design) -->
+                <div class="card-details-form" id="card-details">
+                        <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" placeholder="0000 0000 0000 0000">
+                    </div>
+                        <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div class="checkout-summary-col">
+            <div class="checkout-card summary-card sticky-sidebar">
+                <div class="card-header">
+                    <h3>Order Summary</h3>
+                </div>
+
+                <!-- Cart Items -->
+                <div class="cart-items-list" id="cart-container">
+                    <!-- Items will be injected here by JS -->
+                    <div class="skeleton-loader"><p>Loading cart...</p></div>
+                </div>
+
+                <!-- Coupon -->
+                <div class="coupon-section">
+                    <div class="coupon-input-group">
+                        <input type="text" id="coupon-code" placeholder="Enter Coupon Code">
+                        <button id="apply-coupon" class="btn-apply">Apply</button>
+                    </div>
+                    <p id="coupon-message" class="coupon-msg"></p>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Totals -->
+                <div class="order-totals">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal-price">$0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Delivery Fee</span>
+                        <span id="delivery-price">$5.00</span>
+                    </div>
+                    <div class="total-row discount-row hidden" id="discount-row">
+                        <span>Discount</span>
+                        <span id="discount-price">-$0.00</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="total-row final-total">
+                        <span>Total</span>
+                        <span id="final-total">$0.00</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block place-order-btn" id="place-order-btn">
+                    Place Order <i data-feather="check-circle"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</section>
