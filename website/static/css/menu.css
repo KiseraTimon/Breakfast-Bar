@@ -3,7 +3,7 @@
     margin-bottom: 40px;
 }
 
-/* .filter-btns {
+.filter-btns {
     display: flex;
     justify-content: center;
     gap: 16px;
@@ -13,33 +13,4 @@
 .filter-btns .btn {
     min-width: 100px;
     justify-content: center;
-} */
-
-
-.advanced-search-container {
-    padding: 20px;
-}
-
-.search-input-wrapper {
-    padding: 10px;
-    position: relative;
-    margin-inline: auto;
-}
-
-.search-input-wrapper input {
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
-    width: 50%;
-    outline: none;
-    transition: 0.4s ease-in-out;
-}
-
-.search-input-wrapper input:hover {
-    border: 1px solid red;
-}
-
-.search-select {
-    padding: 10px;
-    border-radius: 10px;
 }
