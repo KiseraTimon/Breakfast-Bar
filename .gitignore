@@ -15,3 +15,6 @@ wheels/
 **/settings/**
 **/database/**
 **/logs/**
+
+# Store Files
+**/store/**
