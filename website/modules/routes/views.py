@@ -10,6 +10,11 @@ def homepage():
 def menu():
     return render_template("menu/menu.html")
 
+# Food Details
+@routes.route("/item")
+def food():
+    return render_template("menu/food-details.html")
+
 # Services Route
 @routes.route("/services")
 def services():
