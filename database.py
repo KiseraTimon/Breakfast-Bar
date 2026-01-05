@@ -1,0 +1,26 @@
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import MetaData
+
+# Alembic Naming
+convention = {
+    # Index
+    "ix": "ix_%(column_0_label)s",
+
+    # Unique Constraint
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+
+    # Check Constraint
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+
+    # Foreign Key
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+
+    # Primary Key
+    "pk": "pk_%(table_name)s"
+}
+
+class Base(DeclarativeBase):
+    metadata = MetaData(naming_convention=convention)
+
+db = SQLAlchemy(model_class=Base)
