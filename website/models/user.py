@@ -50,5 +50,10 @@ class User(db.Model, TimestampMixin):
         self.last_login_at = datetime.now(timezone.utc)
         db.session.commit()
 
+    def update_status(self, active: bool = False):
+        """Modifies User Account Status"""
+        self.is_active = active
+        db.session.commit()
+
     def __repr__(self):
         return f'<User {self.email}>'
