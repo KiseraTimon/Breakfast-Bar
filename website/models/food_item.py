@@ -3,7 +3,7 @@ from decimal import Decimal
 from sqlalchemy import String, Numeric, ForeignKey, Index, CheckConstraint, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 
 class FoodItem(db.Model, TimestampMixin):
     __tablename__ = 'food_items'

@@ -2,7 +2,7 @@
 from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 
 class Favorite(db.Model, TimestampMixin):
     __tablename__ = 'favorites'

@@ -4,7 +4,7 @@ from datetime import date
 from sqlalchemy import Date, Numeric, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 
 class DailySalesSummary(db.Model, TimestampMixin):
     __tablename__ = 'daily_sales_summary'

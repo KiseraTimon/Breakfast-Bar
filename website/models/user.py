@@ -1,9 +1,10 @@
-from sqlalchemy import String, Enum as SQLEnum, Index
+from sqlalchemy import String, Enum as SQLEnum, Index, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 import enum
+from datetime import datetime, timezone
 
 class UserRole(enum.Enum):
     CUSTOMER = "customer"

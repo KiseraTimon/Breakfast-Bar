@@ -3,7 +3,7 @@ from decimal import Decimal
 from sqlalchemy import String, Numeric, ForeignKey, Index, CheckConstraint, Enum as SQLEnum, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 import enum
 
 class PaymentMethod(enum.Enum):
@@ -30,7 +30,7 @@ class Payment(db.Model, TimestampMixin):
         nullable=False,
         default=PaymentStatus.PENDING
     )
-    metadata: Mapped[dict | None] = mapped_column(JSON)  # For gateway responses
+    meta: Mapped[dict | None] = mapped_column(JSON)  # For gateway responses
 
     # Relationships
     order = relationship('Order', back_populates='payments')

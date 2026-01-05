@@ -1,10 +1,8 @@
 # services/order_service.py
 from typing import List, Dict
 from decimal import Decimal
-from models.order import Order, OrderType, OrderStatus
-from models.order_item import OrderItem
-from models.food_item import FoodItem
-from repositories.order_repository import OrderRepository
+from . import Order, OrderType, OrderStatus, OrderItem, FoodItem
+from website.repositories import OrderRepository
 from database import db
 
 class OrderService:

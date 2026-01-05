@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import String, Numeric, ForeignKey, Index, CheckConstraint, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 import enum
 
 class OrderType(enum.Enum):

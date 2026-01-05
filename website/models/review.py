@@ -2,7 +2,7 @@
 from sqlalchemy import String, ForeignKey, CheckConstraint, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 
 class Review(db.Model, TimestampMixin):
     __tablename__ = 'reviews'

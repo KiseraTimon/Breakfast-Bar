@@ -2,7 +2,7 @@
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import db
-from models.base import TimestampMixin
+from .base import TimestampMixin
 
 class Customer(db.Model, TimestampMixin):
     __tablename__ = 'customers'

@@ -1,8 +1,8 @@
 # models/events.py
 from sqlalchemy import event
 from sqlalchemy.orm import Session
-from models.order import Order, OrderItem
-from models.payment import Payment, PaymentStatus
+from . import Order, OrderItem
+from . import Payment, PaymentStatus
 from datetime import datetime, timezone
 
 # Automatically calculate order item subtotal

@@ -15,9 +15,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
-# Loading Environment Variables
-load_dotenv()
-
 # Migrate Object
 migrate = Migrate()
 
@@ -29,14 +26,15 @@ __all__ = ['db', 'login_manager', 'migrate', 'create_app']
 
 # App Factory
 def create_app(FLASK_MODE: str | None = None) -> Flask:
+    # Loading Environment Variables
+    load_dotenv()
+
     # Flask Access Mode
     mode = (
         FLASK_MODE
         if FLASK_MODE is not None
         else os.getenv("FLASK_MODE", "")
     ).strip().lower()
-
-    print("\n\nCurrent Flask Mode, ", mode,"\n\n")
 
     # Flask Object
     app = Flask(__name__)
@@ -63,20 +61,16 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
 
     login_manager.init_app(app)
 
+    # Importing Models
+    with app.app_context():
+        from . import models
+
     # Importing Blueprints
     from website.modules.routes import routes
 
     # Registering Blueprints
     app.register_blueprint(routes, url_prefix="/")
 
-    # Custom CLI Commands
-    @app.cli.command()
-    def init_db():
-        """Initializing database"""
-        with app.app_context():
-            from . import models
-
-            click.echo('Database initialized successfully')
 
     try:
         # Critical Config Keys
@@ -91,3 +85,6 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
 
     except Exception as e:
         errhandler(e, log="__init__", path="server")
+
+        # Raising Exceptions
+        raise
