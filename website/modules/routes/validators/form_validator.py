@@ -59,11 +59,18 @@ class FormValidator:
     # Identity Lookup
     def identity_lookup(self, identifier: str) -> Optional[ValidationResult]:
         try:
-            stmt = select(User, Customer).where(
-                or_(User.email == identifier, Customer.email == identifier)
-            )
+            user = db.session.execute(
+                select(User).where(User.email == identifier)
+            ).scalar_one_or_none()
 
-            exists = db.session.execute(stmt).scalar_one_or_none()
+            if user:
+                return user
+
+            customer = db.session.execute(
+                select(Customer).where(Customer.email == identifier)
+            ).scalar_one_or_none()
+
+            return customer
 
         except Exception as e:
             errhandler(e, log="signup-validator", path="auth")

@@ -11,7 +11,7 @@ class SignupValidator(FormValidator):
 
         # Validating Required Fields
         r = self.require_fields([
-            "first_name", "last_name", "email", "key", "key_check"
+            "first_name", "last_name", "email", "phone", "key", "key_check"
         ])
         if r:
             return r
