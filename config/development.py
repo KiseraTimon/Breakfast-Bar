@@ -1,5 +1,4 @@
-from . import DB_URL, os
-from .default import Default
+from . import DB_URL, Default, os
 
 class Development(Default):
     DEBUG = True
