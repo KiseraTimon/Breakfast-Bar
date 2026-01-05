@@ -1,4 +1,5 @@
-from . import routes, render_template
+from . import routes
+from flask import render_template
 
 # Homepage Route
 @routes.route("/")

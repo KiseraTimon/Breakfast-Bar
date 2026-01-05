@@ -1,4 +1,5 @@
-from . import routes, render_template
+from . import routes
+from flask import render_template
 
 # Dashboard Route
 @routes.route("/dashboard")
