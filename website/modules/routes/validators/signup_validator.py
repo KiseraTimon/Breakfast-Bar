@@ -43,28 +43,23 @@ class SignupValidator(FormValidator):
         # Identity Lookup
         user = self.identity_lookup(email)
         if isinstance(user, ValidationResult):
-            return user
+            return ValidationResult.fail("An error occurred retrieving your account", code="db_error")
 
-        # Updating Last Login
-        try:
-            user.update_last_login()
-        except Exception as e:
-            errhandler(e, log="signup-validator", path="auth")
+        if user is not None:
+            return ValidationResult.fail("An account with similar credentials already exists. Login to continue", code="duplicate")
 
-            return ValidationResult.fail("An error occurred authenticating you. Contact support", code="db_error")
-        else:
-            # Payload
-            payload = {
-                "fName": fName,
-                "lName": lName,
-                "uName": uName,
-                "email": email,
-                "password": password,
-                "role": "user"
-            }
+        # Payload
+        payload = {
+            "fName": fName,
+            "lName": lName,
+            "uName": uName,
+            "email": email,
+            "password": password,
+            "role": "user"
+        }
 
-            return ValidationResult.ok(
-                obj=payload,
-                data=payload,
-                code="signup_ok"
-            )
+        return ValidationResult.ok(
+            obj=payload,
+            data=payload,
+            code="signup_ok"
+        )
