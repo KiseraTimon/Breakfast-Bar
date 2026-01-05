@@ -1,4 +1,4 @@
-from . import os
+from . import os, timedelta
 
 class Default:
     DEBUG = False
@@ -20,3 +20,9 @@ class Default:
 
     UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
     BASE_URL = os.getenv("BASE_URL")
+
+    # Session Management
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
+
+    # Database Content Pagination
+    ITEMS_PER_PAGE = 20
