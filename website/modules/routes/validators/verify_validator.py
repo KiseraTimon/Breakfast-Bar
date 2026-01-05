@@ -1,4 +1,4 @@
-from utils.compatibility import errhandler
+from utils import errhandler
 from . import FormValidator, ValidationResult
 
 class VerifyValidator(FormValidator):

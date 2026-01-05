@@ -1,10 +1,13 @@
-import re
-import sqlalchemy
-import typing
+from typing import Any, Dict, List, Optional, Sequence
+
+from sqlalchemy import select, or_
 from database import db
-from utils.compatibility import errhandler
-from . import ValidationResult
 from website.models import User, Customer
+
+from . import ValidationResult
+
+import re
+from utils import errhandler
 
 
 class FormValidator:

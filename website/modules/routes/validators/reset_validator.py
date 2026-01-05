@@ -1,5 +1,5 @@
-import typing
-from utils.compatibility import errhandler
+from typing import Dict
+from utils import errhandler
 from . import FormValidator, ValidationResult
 
 class ResetValidator(FormValidator):

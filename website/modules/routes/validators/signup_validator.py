@@ -1,6 +1,5 @@
 from . import FormValidator, ValidationResult
 
-
 class SignupValidator(FormValidator):
     """Signup events options"""
 
@@ -26,6 +25,7 @@ class SignupValidator(FormValidator):
         first_name = (self.form.get("first_name") or "").strip()
         last_name = (self.form.get("last_name") or "").strip()
         email = (self.form.get("email") or "").strip()
+        phone = (self.form.get("phone") or "").strip()
         key = self.form.get("key", None).strip()
         key_check = self.form.get("key_check", None).strip()
 
@@ -35,6 +35,9 @@ class SignupValidator(FormValidator):
 
         if len(first_name) < self.MIN_NAME_LENGTH or len(last_name) < self.MIN_NAME_LENGTH:
             return ValidationResult.fail(f"First and last names must be at least {self.MIN_NAME_LENGTH} characters", code="short_name")
+
+        if len(phone) < self.MIN_PHONE_LENGTH:
+            return ValidationResult.fail("Invalid phone number", code="short_phone")
 
         # Password Match Checks
         if key != key_check:
@@ -50,12 +53,11 @@ class SignupValidator(FormValidator):
 
         # Payload
         payload = {
-            "fName": fName,
-            "lName": lName,
-            "uName": uName,
+            "first_name": first_name,
+            "last_name": last_name,
             "email": email,
-            "password": password,
-            "role": "user"
+            "phone": phone,
+            "password": key,
         }
 
         return ValidationResult.ok(

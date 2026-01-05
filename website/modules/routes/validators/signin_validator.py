@@ -1,5 +1,8 @@
-from utils.compatibility import errhandler
-from . import FormValidator, ValidationResult
+from database import db
+
+from . import ValidationResult, FormValidator
+
+from utils import errhandler
 
 class SigninValidator(FormValidator):
     """Signin event options"""
