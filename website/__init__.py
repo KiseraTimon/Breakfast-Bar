@@ -61,6 +61,20 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
 
     login_manager.init_app(app)
 
+    # User Loader
+    @login_manager.user_loader
+    def loadUser(user_id: str):
+        try:
+            from .models import User
+            user = db.session.get(User, int(user_id))
+
+            return user
+
+        except Exception as e:
+            errhandler(e, log="__init__", path="server")
+
+            return None
+
     # Importing Models
     with app.app_context():
         from . import models
