@@ -23,4 +23,4 @@ except Exception as e:
 
 # Handling Successful Server Startups
 else:
-    syshandler("Application Server Operated Successfully. Shutting Down Now", log="main", path="server")
+    syshandler("Application Server Shutting Down", log="main", path="server")
