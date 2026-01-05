@@ -15,7 +15,26 @@ from database import db
 @routes.route("/logout")
 @login_required
 def logout():
-    pass
+    # Logout Data
+    logout_data = session.get('logout', {})
+
+    message = logout_data.get('message', None)
+    category = logout_data.get('category', None)
+
+    if (message and category):
+        flash(message, category=category)
+
+    else:
+        flash("You have been logged out", category="success")
+
+    # Clearing Sessions
+    session.clear()
+
+    # Logging Out User
+    logout_user()
+
+    # Redirecting
+    return redirect(url_for("routes.homepage"))
 
 # Signin Route
 @routes.route("/signin", methods=['GET', 'POST'])
