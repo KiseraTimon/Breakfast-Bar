@@ -6,19 +6,21 @@ from .base import TimestampMixin
 import enum
 from datetime import datetime, timezone
 
+from flask_login import UserMixin
+
 class UserRole(enum.Enum):
     CUSTOMER = "customer"
     STAFF = "staff"
     ADMIN = "admin"
 
-class User(db.Model, TimestampMixin):
+class User(db.Model, TimestampMixin, UserMixin):
     __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
-    phone: Mapped[str] = mapped_column(String(20), unique=True, nullable=True, index=True)
+    phone: Mapped[str] = mapped_column(String(20), unique=True, nullable=False, index=True)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
     role: Mapped[UserRole] = mapped_column(
         SQLEnum(UserRole),
