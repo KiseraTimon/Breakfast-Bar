@@ -2,10 +2,8 @@
 from typing import List
 from datetime import date, datetime
 from sqlalchemy import select, func
-from models.order import Order, OrderStatus
-from models.order_item import OrderItem
-from models.food_item import FoodItem
-from repositories.base_repository import BaseRepository
+from website.models import Order, OrderStatus, OrderItem, FoodItem
+from . import BaseRepository
 from database import db
 
 class OrderRepository(BaseRepository[Order]):
