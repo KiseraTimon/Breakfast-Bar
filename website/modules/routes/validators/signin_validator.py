@@ -32,12 +32,12 @@ class SigninValidator(FormValidator):
             return ValidationResult.fail("Invalid credentials", code="missing_account")
 
         # Password Check
-        if not (user and user.check_passsword(password)):
+        if not (user and user.check_password(password)):
             return ValidationResult.fail("Invalid signin details", code="invalid_credentials")
 
         # Checking Account Activity Status
-        if not getattr(user, "is_active", False):
-            return ValidationResult.fail("Inactive account. Contact support", code="inactive_account")
+        # if not getattr(user, "is_active", False):
+        #     return ValidationResult.fail("Inactive account. Contact support", code="inactive_account")
 
         # Updating Last Login
         try:

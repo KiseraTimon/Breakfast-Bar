@@ -5,15 +5,15 @@
             <p>Please enter your details to sign in</p>
         </div>
 
-        <form class="auth-form" action="#" method="POST">
+        <form class="auth-form" action="{{url_for('routes.signin')}}" method="POST">
             <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                <label for="identifier">Email Address</label>
+                <input type="email" id="identifier" name="identifier" class="form-input" placeholder="Enter your email" required>
             </div>
 
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                <label for="key">Password</label>
+                <input type="password" id="key" name="key" class="form-input" placeholder="Enter your password" required>
             </div>
 
             <div class="auth-actions">
