@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+.vscode
 
 # Virtual environments
 .venv
@@ -20,5 +21,4 @@ wheels/
 **/store/**
 
 # In-progress Files
-validators/
 jobs/
