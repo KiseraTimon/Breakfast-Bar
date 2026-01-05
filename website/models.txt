@@ -1,0 +1,103 @@
+#-- users
+id
+first_name
+last_name
+email
+phone
+password_hash
+role (customer, staff, admin)
+created_at
+updated_at
+last_login_at
+
+
+#-- categories
+id
+name
+description
+sort_order
+is_active
+
+
+#-- food_items
+id
+category_id
+name
+description
+price
+is_available
+image_url
+created_at
+updated_at
+
+#-- ingredients
+id
+food_item_id
+name
+is_allergen
+
+#-- customers
+id
+user_id (nullable - for registered users)
+name
+phone
+email
+created_at
+
+#-- orders
+id
+customer_id (nullable - for walk-ins)
+order_number
+total_amount
+order_type (dine-in, takeout, delivery)
+status (pending, preparing, ready, completed, cancelled)
+notes
+created_at
+updated_at
+completed_at
+
+#-- order_items
+id
+order_id
+food_item_id
+quantity
+unit_price
+subtotal
+notes
+
+#-- payments
+id
+order_id
+amount
+payment_method (mpesa, cash, card)
+transaction_reference
+status (pending, completed, failed, refunded)
+metadata (json - for mpesa/payment gateway responses)
+created_at
+updated_at
+
+#-- favorites
+id
+user_id
+food_item_id
+created_at
+UNIQUE(user_id, food_item_id)
+
+#-- reviews
+id
+user_id
+food_item_id
+order_id
+rating (1-5)
+comment
+created_at
+updated_at
+
+#-- daily_sales_summary
+id
+date
+total_revenue
+order_count
+average_order_value
+top_selling_item_id
+created_at
