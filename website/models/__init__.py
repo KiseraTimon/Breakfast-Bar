@@ -3,7 +3,7 @@ Importing all models here to ensure they're registered with SQLAlchemy.
 This is required for Alembic to detect and generate migrations.
 """
 
-from .user import User
+from .user import User, UserRole
 from .category import Category
 from .food_item import FoodItem
 from .ingredient import Ingredient
