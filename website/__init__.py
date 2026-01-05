@@ -25,12 +25,18 @@ migrate = Migrate()
 login_manager = LoginManager()
 
 # Variables & Objects Available for Import
-__all__ = ['db', 'loginManager', 'migrate', 'create_app']
+__all__ = ['db', 'login_manager', 'migrate', 'create_app']
 
 # App Factory
 def create_app(FLASK_MODE: str | None = None) -> Flask:
     # Flask Access Mode
-    mode = (str(FLASK_MODE) or str(os.getenv("FLASK_MODE")) or "").strip().lower()
+    mode = (
+        FLASK_MODE
+        if FLASK_MODE is not None
+        else os.getenv("FLASK_MODE", "")
+    ).strip().lower()
+
+    print("\n\nCurrent Flask Mode, ", mode,"\n\n")
 
     # Flask Object
     app = Flask(__name__)
@@ -62,6 +68,15 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
 
     # Registering Blueprints
     app.register_blueprint(routes, url_prefix="/")
+
+    # Custom CLI Commands
+    @app.cli.command()
+    def init_db():
+        """Initializing database"""
+        with app.app_context():
+            from . import models
+
+            click.echo('Database initialized successfully')
 
     try:
         # Critical Config Keys
