@@ -2,16 +2,15 @@ from __future__ import annotations
 from flask import Flask
 
 # Flask Extension Modules
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from sqlalchemy import MetaData
 from flask_login import LoginManager
-from utils import errhandler, syshandler
+from database import db
 
 # Config Files
 from config import Default, Development, Production
 
 # Other Packages
+from utils import errhandler, syshandler
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -19,20 +18,8 @@ import os
 # Loading Environment Variables
 load_dotenv()
 
-# Alembic Naming
-namingConvention = {
-    "ix": "ix_%(column_0_label)s",
-    "uq": "uq_%(table_name)s_%(column_0_name)s",
-    "ck": "ck_%(table_name)s_%(constraint_name)s",
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-    "pk": "pk_%(table_name)s",
-}
-
-# Metadata Object
-meta = MetaData(naming_convention=namingConvention)
-
-# SQLAlchemy Object
-db = SQLAlchemy(metadata=meta)
+# Migrate Object
+migrate = Migrate()
 
 # Login Manager Object
 login_manager = LoginManager()
@@ -60,10 +47,32 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
     else:
         app.config.from_object(Default)
 
+    # Bindings
+    db.init_app(app)
+    migrate.init_app(app, db, compare_type=True)
+
+    # Login Manager Settings
+    login_manager.login_view = ""
+    login_manager.login_message = "Access Denied"
+
+    login_manager.init_app(app)
+
     # Importing Blueprints
     from website.modules.routes import routes
 
     # Registering Blueprints
     app.register_blueprint(routes, url_prefix="/")
 
-    return app
+    try:
+        # Critical Config Keys
+        config_keys = ["DEBUG", "TESTING"]
+        config_summary = "\n".join(
+            f"{key}: {app.config.get(key)}" for key in config_keys
+        )
+
+        syshandler(f"Application Server Start Attempted\n\n-----\nApp Settings:\n{config_summary}\nFLASK MODE: {mode.capitalize()}", log="__init__", path="server")
+
+        return app
+
+    except Exception as e:
+        errhandler(e, log="__init__", path="server")
