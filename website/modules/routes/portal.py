@@ -19,9 +19,9 @@ def is_admin():
     return is_active_user() and current_user.role == UserRole.ADMIN
 
 # Dashboard Route
-@routes.route("/dash")
+@routes.route("/portal")
 @login_required
-def dashboard():
+def portal():
 
     if is_customer():
         return redirect(url_for('routes.customer'))
