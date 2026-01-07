@@ -8,7 +8,6 @@ from utils import errhandler
 from website.models import User
 
 from website.modules.routes.validators import *
-from website.helpers import generator, manager, mailer
 
 from database import db
 
@@ -42,10 +41,10 @@ def logout():
 # Signin Route
 @routes.route("/signin", methods=['GET', 'POST'])
 def signin():
-    if ((current_user) and (current_user.is_authenticated) and (current_user.is_active)):
+    if ((current_user) and (current_user.is_authenticated) and (current_user.is_verified)):
         return redirect(url_for('routes.portal'))
 
-    if ((current_user) and (current_user.is_authenticated) and (not (current_user.is_active))):
+    if ((current_user) and (current_user.is_authenticated) and (not (current_user.is_verified))):
         return redirect(url_for("routes.verify"))
 
     # POST Requests
@@ -67,7 +66,23 @@ def signin():
         user = result.object
 
         try:
-            login_user(user)
+            if getattr(user, "is_verified", False):
+                login_user(user)
+            else:
+                # Helpers
+                manager(
+                    s=session,
+                    e=user.email
+                )
+                mailer(
+                    s = session,
+                    r=user.email,
+                    m = 0
+                )
+
+                flash("Your account is not verified. Complete verification to continue", category="warning")
+
+                return redirect(url_for("routes.verify"))
 
         except Exception as e:
             errhandler(e, log="signin", path="auth")
@@ -78,7 +93,7 @@ def signin():
         else:
             flash("You have been logged in successfully", category="success")
 
-            if ((user) and (user.is_authenticated) and (not (user.is_active))):
+            if ((user) and (user.is_authenticated) and (not (user.is_verified))):
                 return redirect(url_for("routes.verify"))
 
             return redirect(url_for('routes.portal'))
@@ -88,10 +103,10 @@ def signin():
 # Signup Route
 @routes.route("/signup", methods=['GET', 'POST'])
 def signup():
-    if (current_user) and (current_user.is_active):
+    if (current_user) and (current_user.is_verified):
         return redirect(url_for("routes.portal"))
 
-    if ((current_user) and (current_user.is_authenticated) and (not (current_user.is_active))):
+    if ((current_user) and (current_user.is_authenticated) and (not (current_user.is_verified))):
         return redirect(url_for("routes.verify"))
 
     # POST Requests
@@ -128,8 +143,15 @@ def signup():
             db.session.commit()
 
             # Helpers
-            manager(user.email)
-            mailer(mode = 0)
+            manager(
+                s=session,
+                e=user.email
+            )
+            mailer(
+                s = session,
+                r=user.email,
+                m = 0
+            )
 
         except Exception as e:
             db.session.rollback()
@@ -158,7 +180,7 @@ def reset():
 @routes.route("/verify")
 def verify():
 
-    if (current_user.is_authenticated) and (current_user.is_active):
+    if (current_user.is_authenticated) and (current_user.is_verified):
         return redirect(url_for('routes.portal'))
 
     # POST Requests
@@ -172,35 +194,65 @@ def verify():
         # Handling Code Resend Requests
         mode = request.form.get("mode", "verify")
         if mode == "resend":
-            manager(session['verification']['email'])
-            mailer(mode = 0)
+            result = validator.resend_code(
+                current_user=current_user or None,
+                session_store=session
+            )
+
+            if not result:
+                flash("An error occurred resending your code. Try again later", category="error")
+
+                return redirect(request.url)
+
+            else:
+                flash("A new code has been sent to your email", category="success")
+
+                return redirect(request.url)
 
             flash("A new verification code has been sent to your email", category="success")
 
             return redirect(url_for('routes.verify'))
 
-        # Validating User
-        result = validator.validate()
+        elif mode == "verify":
 
-        if not result.success:
-            flash(result.errors[0] if result.errors else "An error occurred verifying your account. Contact support", category="error")
+            # Validating User
+            result = validator.validate(
+                current_user=current_user or None,
+                session_store=session
+            )
+
+            if not result.success:
+                flash(result.errors[0] if result.errors else "An error occurred verifying your account. Contact support", category="error")
+
+                return redirect(request.url)
+
+            user = result.object
+
+            try:
+                update = validator.account_update(user)
+
+                if not update.success:
+                    flash(update.errors[0] if update.errors else "An error occurred verifying your account. Contact support", category="error")
+
+                    return redirect(request.url)
+
+                else:
+                    login_user(user)
+
+            except Exception as e:
+                errhandler(e, log="verify", path="auth")
+
+                flash("An error occurred verifying your account. Contact support", category="error")
+
+                return redirect(url_for("routes.homepage"))
+            else:
+                flash("You have been authenticated and verified successfully", category="success")
+
+                return redirect(url_for('routes.portal'))
+
+        else:
+            flash("Invalid access to service. Contact support", category="error")
 
             return redirect(request.url)
-
-        user = result.object
-
-        try:
-            login_user(user)
-
-        except Exception as e:
-            errhandler(e, log="verify", path="auth")
-
-            flash("An error occurred verifying your account. Contact support", category="error")
-
-            return redirect(url_for("routes.homepage"))
-        else:
-            flash("You have been authenticated & verified successfully", category="success")
-
-            return redirect(url_for('routes.portal'))
 
     return render_template("auth/auth.html")
