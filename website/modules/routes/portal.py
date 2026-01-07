@@ -6,17 +6,17 @@ from flask_login import login_required, current_user
 from website.models import UserRole
 
 """Access rules for routes"""
-def is_active_user():
-    return current_user.is_authenticated and current_user.is_active
+def is_verified_user():
+    return current_user.is_authenticated and current_user.is_verified
 
 def is_customer():
-    return is_active_user() and current_user.role == UserRole.CUSTOMER
+    return is_verified_user() and current_user.role == UserRole.CUSTOMER
 
 def is_staff():
-    return is_active_user() and current_user.role == UserRole.STAFF
+    return is_verified_user() and current_user.role == UserRole.STAFF
 
 def is_admin():
-    return is_active_user() and current_user.role == UserRole.ADMIN
+    return is_verified_user() and current_user.role == UserRole.ADMIN
 
 # Dashboard Route
 @routes.route("/portal")

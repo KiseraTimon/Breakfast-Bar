@@ -36,7 +36,7 @@ class SigninValidator(FormValidator):
             return ValidationResult.fail("Invalid signin details", code="invalid_credentials")
 
         # Checking Account Activity Status
-        # if not getattr(user, "is_active", False):
+        # if not getattr(user, "is_verified", False):
         #     return ValidationResult.fail("Inactive account. Contact support", code="inactive_account")
 
         # Updating Last Login
