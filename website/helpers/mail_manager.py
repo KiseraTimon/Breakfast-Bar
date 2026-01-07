@@ -1,8 +1,6 @@
 from utils import mailer, errhandler
 from typing import Optional, Dict, Union
 
-from flask import session
-
 # Mail Modes
 ModeType = Union[int, str, None]
 
@@ -10,10 +8,14 @@ class MailManager:
 
     @staticmethod
     def mail_options(
-        recipient: str = session.get("verification", {}).get("email", None),
-        code: str = session.get("verification", {}).get("code", None),
+        session,
+        r: str = None,
+        c: str = None,
         mode: ModeType = None
     ) -> bool:
+        recipient = session.get("verification", {}).get("email", None) or r
+        code = session.get("verification", {}).get("code", None) or c
+
         sent: bool = False
 
         try:

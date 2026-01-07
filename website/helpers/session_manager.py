@@ -1,13 +1,13 @@
-from flask import session
 import time
 from utils import errhandler
 
-from . import generator
+from .code_generator import CodeGenerator
 
 class SessionManager:
 
     @staticmethod
     def update_session(
+        session,
         email: str = None
     ) -> bool:
         # Constants
@@ -15,7 +15,7 @@ class SessionManager:
         CODE_VALIDITY = 300
 
         try:
-            code = generator(int(CODE_LENGTH))
+            code = CodeGenerator.generator(int(CODE_LENGTH))
             expiry = time.time() + int(CODE_VALIDITY)
 
             session['verification'] = {
