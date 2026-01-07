@@ -27,7 +27,7 @@ class User(db.Model, TimestampMixin, UserMixin):
         nullable=False,
         default=UserRole.CUSTOMER
     )
-    is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
+    is_verified: Mapped[bool] = mapped_column(default=True, nullable=False)
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     # Relationships
@@ -36,7 +36,7 @@ class User(db.Model, TimestampMixin, UserMixin):
 
     # Indexes for performance
     __table_args__ = (
-        Index('idx_user_role_active', 'role', 'is_active'),
+        Index('idx_user_role_active', 'role', 'is_verified'),
     )
 
     def set_password(self, password: str):
@@ -54,7 +54,7 @@ class User(db.Model, TimestampMixin, UserMixin):
 
     def update_status(self, active: bool = False):
         """Modifies User Account Status"""
-        self.is_active = active
+        self.is_verified = active
         db.session.commit()
 
     def __repr__(self):
