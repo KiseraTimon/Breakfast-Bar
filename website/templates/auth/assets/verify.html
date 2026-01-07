@@ -5,17 +5,28 @@
             <p>Enter the 8-character code sent to your email</p>
         </div>
 
-        <form class="auth-form" action="index.html">
+        <form id="verifyForm" class="auth-form" action="{{url_for('routes.verify')}}" method="POST">
             <div class="form-group">
                 <label for="code" style="text-align: center;">Verification Code</label>
                 <input type="text" id="code" class="form-input verification-input" placeholder="********" maxlength="4" required>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Verify</button>
+            <!--Mode Controller-->
+            <input type="hidden" name="mode" id="modeInput" value="verify">
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+                style="width: 100%; justify-content: center;"
+                onclick="setMode('verify')"
+            >
+                Verify
+            </button>
         </form>
 
         <div class="auth-footer">
-            Didn't receive code? <a href="#" class="auth-link">Resend</a>
+            Didn't receive code?
+            <a href="#" class="auth-link" onclick="resendCode(event)">Resend</a>
         </div>
     </div>
 </div>

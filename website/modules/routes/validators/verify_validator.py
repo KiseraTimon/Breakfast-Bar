@@ -117,6 +117,7 @@ class VerifyValidator(FormValidator):
             mailer(
                 s=session_store,
                 r=user.email,
+                c=None,
                 m=0
             )
 

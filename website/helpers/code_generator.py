@@ -10,4 +10,4 @@ class CodeGenerator:
         alphabet = string.ascii_letters + string.digits
 
         # Secret Code
-        return ''.join(secrets.choice(alphabet) for _ in range(self.length))
+        return ''.join(secrets.choice(alphabet) for _ in range(length))

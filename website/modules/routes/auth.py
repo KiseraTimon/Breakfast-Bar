@@ -8,6 +8,7 @@ from utils import errhandler
 from website.models import User
 
 from website.modules.routes.validators import *
+from website.helpers import manager, mailer
 
 from database import db
 
@@ -77,6 +78,7 @@ def signin():
                 mailer(
                     s = session,
                     r=user.email,
+                    c=None,
                     m = 0
                 )
 
@@ -150,6 +152,7 @@ def signup():
             mailer(
                 s = session,
                 r=user.email,
+                c=None,
                 m = 0
             )
 
@@ -177,7 +180,7 @@ def reset():
     return render_template("auth/auth.html")
 
 # Verification Route
-@routes.route("/verify")
+@routes.route("/verify", methods=['GET', 'POST'])
 def verify():
 
     if (current_user.is_authenticated) and (current_user.is_verified):

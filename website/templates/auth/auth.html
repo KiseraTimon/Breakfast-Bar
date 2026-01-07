@@ -46,4 +46,16 @@ Breakfast Bar | Authenticate
 
 <!--Independent JS-->
 {% block js %}
+<script>
+    function setMode(mode) {
+        document.getElementById("modeInput").value = mode;
+    }
+
+    function resendCode(event) {
+        event.preventDefault();
+        setMode("resend");
+        document.getElementById("verifyForm").submit();
+    }
+</script>
+
 {% endblock %}
