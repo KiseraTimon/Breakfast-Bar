@@ -4,9 +4,7 @@ import time
 from website.models import User, Customer
 from website.repositories import UserRepository, CustomerRepository
 
-from .auth_validator import AuthValidator
-from .validation_result import ValidationResult
-
+from website.validators import AuthValidator, ValidationResult
 from website.helpers import manager, mailer
 
 from utils import errhandler
