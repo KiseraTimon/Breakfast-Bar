@@ -144,7 +144,16 @@
 					<i data-feather="shopping-bag"></i>
 					<span class="badge">2</span>
 				</button>
-				<button onclick="window.location.href=`{{url_for('routes.portal')}}`" class="icon-btn user-btn text-primary"><i data-feather="user"></i></button>
+				{% if user %}
+					{# Showing logout button only in dashboard pages #}
+					{% if request.endpoint in ['routes.staff', 'routes.customer', 'routes.admin'] %}
+						<button onclick="window.location.href=`{{url_for('routes.logout')}}`" class="icon-btn user-btn text-danger" title="Logout"><i data-feather="log-out"></i></button>
+					{% else %}
+						<button onclick="window.location.href=`{{url_for('routes.portal')}}`" class="icon-btn user-btn text-primary"><i data-feather="user"></i></button>
+					{% endif %}
+				{% else %}
+					<button onclick="window.location.href=`{{url_for('routes.signin')}}`" class="icon-btn user-btn text-primary" title="Sign In"><i data-feather="key"></i></button>
+				{% endif %}
 			</div>
 		</header>
 		{% endblock %}
