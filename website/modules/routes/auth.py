@@ -121,11 +121,6 @@ def signup():
 
     return render_template("auth/auth.html")
 
-# Password Reset Route
-@routes.route("/reset-password")
-def reset():
-    return render_template("auth/auth.html")
-
 # Verification Route
 @routes.route("/verify", methods=['GET', 'POST'])
 def verify():
