@@ -80,7 +80,7 @@ def create_app(FLASK_MODE: str | None = None) -> Flask:
         from . import models
 
     # Importing Blueprints
-    from website.modules.routes import routes
+    from website.routes import routes
 
     # Registering Blueprints
     app.register_blueprint(routes, url_prefix="/")
