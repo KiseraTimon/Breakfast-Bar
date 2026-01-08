@@ -50,7 +50,11 @@ def customer():
         }
 
         return redirect(url_for('routes.logout'))
-    return render_template("dashboard/dashboard.html")
+    return render_template(
+        "dashboard/customer.html",
+        title="Dashboard",
+        user=current_user
+    )
 
 # Staff Dashboard
 @routes.route("/staff")
@@ -64,7 +68,11 @@ def staff():
         }
 
         return redirect(url_for('routes.logout'))
-    return render_template("dashboard/dashboard.html")
+    return render_template(
+        "dashboard/customer.html",
+        title="Dashboard",
+        user=current_user
+    )
 
 # Admin Dashboard Route
 @routes.route("/administrator")
@@ -77,4 +85,8 @@ def admin():
         }
 
         return redirect(url_for('routes.logout'))
-    return render_template("dashboard/admin.html")
+    return render_template(
+        "dashboard/admin.html",
+        title="Dashboard",
+        user=current_user
+    )
