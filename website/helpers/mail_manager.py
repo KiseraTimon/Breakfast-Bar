@@ -16,6 +16,8 @@ class MailManager:
         recipient = session.get("verification", {}).get("email", None) or r
         code = session.get("verification", {}).get("code", None) or c
 
+        print(f"\n\n### Mail Options\n{recipient}\n{code}\n###\n\n")
+
         sent: bool = False
 
         try:
@@ -75,8 +77,8 @@ class MailManager:
                 return False
 
             sent = mailer(
-                recipient=recipient,
-                subject=subject,
+                r=recipient,
+                s=subject,
                 body=body
             )
 

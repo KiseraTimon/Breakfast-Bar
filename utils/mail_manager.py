@@ -48,8 +48,8 @@ class MailManager:
         username = os.getenv("MAIL_USERNAME") or getattr(env, "MAIL_USERNAME", None)
         password = os.getenv("MAIL_PASSWORD") or getattr(env, "MAIL_PASSWORD", None)
 
-        use_tls = MailService._bool_env("MAIL_USE_TLS", getattr(env, "MAIL_USE_TLS", False))
-        use_ssl = MailService._bool_env("MAIL_USE_SSL", getattr(env, "MAIL_USE_SSL", False))
+        use_tls = MailManager._bool_env("MAIL_USE_TLS", getattr(env, "MAIL_USE_TLS", False))
+        use_ssl = MailManager._bool_env("MAIL_USE_SSL", getattr(env, "MAIL_USE_SSL", False))
 
         try:
             import smtplib

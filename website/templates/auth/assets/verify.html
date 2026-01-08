@@ -8,7 +8,7 @@
         <form id="verifyForm" class="auth-form" action="{{url_for('routes.verify')}}" method="POST">
             <div class="form-group">
                 <label for="code" style="text-align: center;">Verification Code</label>
-                <input type="text" id="code" class="form-input verification-input" placeholder="********" maxlength="4" required>
+                <input type="text" id="code" name="code" class="form-input verification-input" placeholder="********" maxlength="8" minlength="4" required>
             </div>
 
             <!--Mode Controller-->
