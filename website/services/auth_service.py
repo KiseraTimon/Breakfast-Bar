@@ -307,7 +307,7 @@ class AuthService:
 
             # Generate and send new code
             session_man = manager(s=session_store, e=user.email)
-            send_mail = mailer(s=session_store, r=user.email, m=0)
+            send_mail = mailer(s=session_store, r=user.email, c=None, m=0)
 
             if not (session_man and send_mail):
                 return ValidationResult.fail(
@@ -349,7 +349,7 @@ class AuthService:
 
             # Generate and send reset code
             session_man = manager(s=session_store, e=user.email)
-            send_mail = mailer(s=session_store, r=user.email, m=0)
+            send_mail = mailer(s=session_store, r=user.email, c=None, m=0)
 
             if not (session_man and send_mail):
                 return ValidationResult.fail(

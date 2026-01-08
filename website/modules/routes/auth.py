@@ -67,16 +67,12 @@ def signin():
             return redirect(url_for('routes.portal'))
         else:
             # Send verification code
-            session_man = manager(s=session_store, e=user.email)
-            send_mail = mailer(s=session_store, r=user.email, m=0)
+            session_man = manager(s=session, e=user.email)
+            send_mail = mailer(s=session, r=user.email, c=None, m=0)
 
             if not (session_man and send_mail):
-                session['logout'] = {
-                    "message": "An error occured mailing your verification code. Contact Support",
-                    "category": "error"
-                }
-
-                return redirect(url_for("routes.logout"))
+                flash("An error occured mailing your verification code. Contact Support", category="error")
+                return redirect(url_for("routes.homepage"))
 
             flash("Complete verification to continue", category="warning")
             return redirect(url_for("routes.verify"))
@@ -108,7 +104,7 @@ def signup():
 
         # Helpers sending verification mail
         session_man = manager(s=session, e=user.email)
-        send_mail = mailer(s=session, r=user.email, m=0)
+        send_mail = mailer(s=session, r=user.email, c=None, m=0)
 
         if not (session_man and send_mail):
             # Error Message
