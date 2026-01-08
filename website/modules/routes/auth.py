@@ -7,7 +7,7 @@ from utils import errhandler
 
 from website.models import User
 
-from website.modules.routes.validators import *
+from website.services import AuthService
 from website.helpers import manager, mailer
 
 from database import db
@@ -20,15 +20,10 @@ import time, random, secrets, string
 def logout():
     # Logout Data
     logout_data = session.get('logout', {})
+    message = logout_data.get('message', "You have been logged out")
+    category = logout_data.get('category', "warning")
 
-    message = logout_data.get('message', None)
-    category = logout_data.get('category', None)
-
-    if (message and category):
-        flash(message, category=category)
-
-    else:
-        flash("You have been logged out", category="success")
+    flash(message, category=category)
 
     # Clearing Sessions
     session.clear()
@@ -50,127 +45,79 @@ def signin():
 
     # POST Requests
     if request.method == "POST":
-        # Validator Object
-        validator = SigninValidator(
-            form=request.form.to_dict(),
-            method=request.method
+        # Initializing auth service
+        auth_service = AuthService()
+
+        result = auth_service.signin(
+            identifier=request.form.get("identifier", ""),
+            password=request.form.get("key", "")
         )
 
-        # Validating User
-        result = validator.validate()
-
         if not result.success:
-            flash(result.errors[0] if result.errors else "An error occurred creating your account. Contact  support", category="error")
+            flash(result.message, category="error")
 
             return redirect(request.url)
 
         user = result.object
 
-        try:
-            if getattr(user, "is_verified", False):
-                login_user(user)
-            else:
-                # Helpers
-                manager(
-                    s=session,
-                    e=user.email
-                )
-                mailer(
-                    s = session,
-                    r=user.email,
-                    c=None,
-                    m = 0
-                )
+        if user.is_verified:
+            login_user(user)
 
-                flash("Your account is not verified. Complete verification to continue", category="warning")
-
-                return redirect(url_for("routes.verify"))
-
-        except Exception as e:
-            errhandler(e, log="signin", path="auth")
-
-            flash("An error occurred signing you in. Contact support", category="error")
-
-            return redirect(url_for("routes.homepage"))
-        else:
             flash("You have been logged in successfully", category="success")
-
-            if ((user) and (user.is_authenticated) and (not (user.is_verified))):
-                return redirect(url_for("routes.verify"))
-
             return redirect(url_for('routes.portal'))
+        else:
+            # Send verification code
+            session_man = manager(s=session_store, e=user.email)
+            send_mail = mailer(s=session_store, r=user.email, m=0)
+
+            if not (session_man and send_mail):
+                session['logout'] = {
+                    "message": "An error occured mailing your verification code. Contact Support",
+                    "category": "error"
+                }
+
+                return redirect(url_for("routes.logout"))
+
+            flash("Complete verification to continue", category="warning")
+            return redirect(url_for("routes.verify"))
 
     return render_template("auth/auth.html")
 
 # Signup Route
 @routes.route("/signup", methods=['GET', 'POST'])
 def signup():
-    if (current_user) and (current_user.is_verified):
-        return redirect(url_for("routes.portal"))
-
-    if ((current_user) and (current_user.is_authenticated) and (not (current_user.is_verified))):
+    # Redirect if already authenticated
+    if current_user and current_user.is_authenticated:
+        if current_user.is_verified:
+            return redirect(url_for("routes.portal"))
         return redirect(url_for("routes.verify"))
 
     # POST Requests
     if request.method == "POST":
-        # Validator Object
-        validator = SignupValidator(
-            form = request.form.to_dict(),
-            method = request.method
-        )
+        # Initializing auth service
+        auth_service = AuthService()
 
-        # Validating User
-        result = validator.validate()
+        # Sign up
+        result = auth_service.signup(request.form.to_dict())
 
         if not result.success:
-            flash(result.errors[0] if result.errors else "An error occurred creating your account. Contact  support", category="error")
-
+            flash(result.message, category="error")
             return redirect(request.url)
 
         payload = result.object
 
-        try:
-            user = User(
-                first_name = payload['first_name'],
-                last_name = payload['last_name'],
-                email = payload['email'],
-                phone = payload['phone']
-            )
+        # Helpers sending verification mail
+        session_man = manager(s=session, e=user.email)
+        send_mail = mailer(s=session, r=user.email, m=0)
 
-            user.set_password(password=payload['password'])
-            user.update_status(active=False)
-            user.update_last_login()
-
-            db.session.add(user)
-            db.session.commit()
-
-            # Helpers
-            manager(
-                s=session,
-                e=user.email
-            )
-            mailer(
-                s = session,
-                r=user.email,
-                c=None,
-                m = 0
-            )
-
-        except Exception as e:
-            db.session.rollback()
-
-            flash("An error occurred creating your account. Contact support", category="error")
-
-            errhandler(e, log="signup", path="auth")
+        if not (session_man and send_mail):
+            # Error Message
+            flash("An error occurred mailing your verification code. Contact support", category="error")
 
             return redirect(request.url)
 
-        else:
-            flash("Your account has been created successfully", category="success")
-
-            db.session.close()
-
-            return redirect(url_for("routes.verify"))
+        flash("Your account has been created successfully", category="success")
+        return redirect(url_for("routes.verify"))
 
     return render_template("auth/auth.html")
 
@@ -182,80 +129,49 @@ def reset():
 # Verification Route
 @routes.route("/verify", methods=['GET', 'POST'])
 def verify():
-
-    if (current_user.is_authenticated) and (current_user.is_verified):
+    # Checking for authenticated & verified users
+    if current_user.is_authenticated and current_user.is_verified:
         return redirect(url_for('routes.portal'))
 
     # POST Requests
     if request.method == "POST":
-        # Validator Object
-        validator = VerifyValidator(
-            form=request.form.to_dict(),
-            method=request.method
-        )
+        # Initializing auth service
+        auth_service = AuthService()
 
         # Handling Code Resend Requests
         mode = request.form.get("mode", "verify")
+
         if mode == "resend":
-            result = validator.resend_code(
-                current_user=current_user or None,
+            # Resend code
+            result = auth_service.resend_verification_code(
+                current_user=current_user if current_user.is_authenticated else None,
                 session_store=session
             )
 
-            if not result:
-                flash("An error occurred resending your code. Try again later", category="error")
-
-                return redirect(request.url)
-
-            else:
-                flash("A new code has been sent to your email", category="success")
-
-                return redirect(request.url)
-
-            flash("A new verification code has been sent to your email", category="success")
-
-            return redirect(url_for('routes.verify'))
+            flash(result.message, category="success" if result.success else "error")
+            return redirect(request.url)
 
         elif mode == "verify":
-
-            # Validating User
-            result = validator.validate(
-                current_user=current_user or None,
+            # Verify code
+            result = auth_service.verify_code(
+                code=request.form.get("code", ""),
+                current_user=current_user if current_user.is_authenticated else None,
                 session_store=session
             )
 
             if not result.success:
-                flash(result.errors[0] if result.errors else "An error occurred verifying your account. Contact support", category="error")
-
+                flash(result.message, category="error")
                 return redirect(request.url)
 
+            # Login user
             user = result.object
+            login_user(user)
 
-            try:
-                update = validator.account_update(user)
-
-                if not update.success:
-                    flash(update.errors[0] if update.errors else "An error occurred verifying your account. Contact support", category="error")
-
-                    return redirect(request.url)
-
-                else:
-                    login_user(user)
-
-            except Exception as e:
-                errhandler(e, log="verify", path="auth")
-
-                flash("An error occurred verifying your account. Contact support", category="error")
-
-                return redirect(url_for("routes.homepage"))
-            else:
-                flash("You have been authenticated and verified successfully", category="success")
-
-                return redirect(url_for('routes.portal'))
+            flash("Account verified successfully", category="success")
+            return redirect(url_for('routes.portal'))
 
         else:
             flash("Invalid access to service. Contact support", category="error")
-
             return redirect(request.url)
 
     return render_template("auth/auth.html")

@@ -306,8 +306,14 @@ class AuthService:
                 )
 
             # Generate and send new code
-            manager(s=session_store, e=user.email)
-            mailer(s=session_store, r=user.email, m=0)
+            session_man = manager(s=session_store, e=user.email)
+            send_mail = mailer(s=session_store, r=user.email, m=0)
+
+            if not (session_man and send_mail):
+                return ValidationResult.fail(
+                    "A verification code could not be sent to your email",
+                    code="verification_failure"
+                )
 
             return ValidationResult.ok(
                 message="Verification code sent",
@@ -342,8 +348,14 @@ class AuthService:
                 )
 
             # Generate and send reset code
-            manager(s=session_store, e=user.email)
-            mailer(s=session_store, r=user.email, m=0)
+            session_man = manager(s=session_store, e=user.email)
+            send_mail = mailer(s=session_store, r=user.email, m=0)
+
+            if not (session_man and send_mail):
+                return ValidationResult.fail(
+                    "A verification code could not be sent to your email",
+                    code="verification_failure"
+                )
 
             return ValidationResult.ok(
                 message="Reset code sent to your email",
