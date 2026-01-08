@@ -17,28 +17,28 @@ Breakfast Bar | Dashboard
 <section class="container dashboard-container">
 
     <!-- Sidebar -->
-    {% include '/dashboard/assets/sidebar.html' %}
+    {% include '/dashboard/assets/customer-sidebar.html' %}
 
     <!-- Mobile Nav Placeholder (Hidden on Desktop) -->
-    {% include '/dashboard/assets/mobile-nav.html' %}
+    {% include '/dashboard/assets/customer-mobile-nav.html' %}
 
     <!-- Main Content Area -->
     <main class="dashboard-content">
 
         <!--Dashboard Tab-->
-        {% include '/dashboard/assets/dash.html' %}
+        {% include '/dashboard/assets/customer-dashboard.html' %}
 
         <!--Orders Tab-->
-        {% include '/dashboard/assets/orders.html' %}
+        {% include '/dashboard/assets/customer-orders.html' %}
 
         <!--Favorites Tab-->
-        {% include '/dashboard/assets/favorites.html' %}
+        {% include '/dashboard/assets/customer-favorites.html' %}
 
         <!--Reservations Tab-->
-        {% include '/dashboard/assets/reservations.html' %}
+        {% include '/dashboard/assets/customer-reservations.html' %}
 
         <!--Settings Tab-->
-        {% include '/dashboard/assets/settings.html' %}
+        {% include '/dashboard/assets/customer-settings.html' %}
     </main>
 </section>
 {% endblock %}
