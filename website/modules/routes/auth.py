@@ -175,3 +175,57 @@ def verify():
             return redirect(request.url)
 
     return render_template("auth/auth.html")
+
+# Password Reset Route
+@routes.route("/reset-password", methods=['GET', 'POST'])
+def reset():
+    if request.method == "POST":
+        # Initialize service
+        auth_service = AuthService()
+
+        mode = request.form.get("mode", "request")
+
+        if mode == "request":
+            # Request reset code
+            result = auth_service.request_password_reset(
+                email=request.form.get("email", ""),
+                session_store=session
+            )
+
+            flash(result.message, category="success" if result.success else "error")
+            return redirect(request.url)
+
+        elif mode == "verify_code":
+            # Verify reset code
+            result = auth_service.verify_reset_code(
+                code=request.form.get("code", ""),
+                session_store=session
+            )
+
+            if not result.success:
+                flash(result.message, category="error")
+                return redirect(request.url)
+
+            flash("Code verified. Enter your new password", category="success")
+            return redirect(request.url)
+
+        elif mode == "reset":
+            # Reset password
+            result = auth_service.reset_password(
+                new_password=request.form.get("key", ""),
+                confirm_password=request.form.get("key_check", ""),
+                session_store=session
+            )
+
+            if not result.success:
+                flash(result.message, category="error")
+                return redirect(request.url)
+
+            flash("Password reset successfully. Please sign in", category="success")
+            return redirect(url_for("routes.signin"))
+
+        else:
+            flash("Invalid request", category="error")
+            return redirect(request.url)
+
+    return render_template("auth/auth.html")
