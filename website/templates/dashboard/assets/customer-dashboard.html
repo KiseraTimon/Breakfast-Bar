@@ -1,6 +1,6 @@
 <div id="dashboard" class="tab-content active">
     <div class="welcome-banner">
-        <h1>Good Morning, Alex! ☀️</h1>
+        <h1>Good Morning, {{data['user']['first_name']}}! ☀️</h1>
         <p>Ready for a delicious start to your day? You have <strong>150 Loyalty Beans</strong> to redeem!</p>
     </div>
 
@@ -8,7 +8,7 @@
         <div class="stat-card">
             <div class="stat-icon"><i data-feather="coffee"></i></div>
             <div class="stat-info">
-                <h3>12</h3>
+                <h3>{{data['metrics']['total_orders']}}</h3>
                 <p>Total Orders</p>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="stat-card">
             <div class="stat-icon"><i data-feather="clock"></i></div>
             <div class="stat-info">
-                <h3>1</h3>
+                <h3>{{data['metrics']['active_orders_count']}}</h3>
                 <p>Active Order</p>
             </div>
         </div>
@@ -34,25 +34,28 @@
     </div>
 
     <div class="list-container">
+        {% if data['recent_orders']%}
+        {% for item in data['recent_orders']%}
         <div class="list-item">
             <div class="item-info">
                 <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Breakfast" class="item-img">
                 <div class="item-details">
-                    <h4>Classic Pancakes & Coffee</h4>
+                    <h4>{{item.name}}</h4>
                     <span>Today, 8:30 AM • $12.50</span>
                 </div>
             </div>
-            <span class="status-badge status-cooking">Cooking</span>
+            <span class="status-badge status-cooking">{{item.status}}</span>
         </div>
+        {% endfor %}
+        {% else %}
         <div class="list-item">
             <div class="item-info">
-                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Breakfast" class="item-img">
                 <div class="item-details">
-                    <h4>Avocado Toast Supreme</h4>
-                    <span>Yesterday • $15.00</span>
+                    <h4>You have no past activity to show</h4>
+                    <span>Make an order today to get started • <a href="{{url_for('routes.menu')}}" target="_blank">Order Now</a></span>
                 </div>
             </div>
-                <span class="status-badge status-delivered">Delivered</span>
         </div>
+        {% endif %}
     </div>
 </div>

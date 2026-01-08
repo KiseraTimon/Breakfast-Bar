@@ -3,41 +3,36 @@
         <h2>My Favorite Dishes</h2>
     </div>
     <div class="favorites-grid">
-        <!-- Reusing Dish Card Structure with minor simplification -->
+        <!-- Reused Dish Cards -->
+         {% if data['favorites'] %}
+         {% for item in data['favorites']%}
         <div class="dish-card">
                 <div class="dish-image">
                 <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Fav Dish">
-                <button class="wishlist-btn text-primary"><i data-feather="heart" style="fill: var(--primary);"></i></button>
+                <button class="wishlist-btn text-primary"><i data-feather="heart" style="fill: var(--primary); color: var(--primary);"></i></button>
             </div>
             <div class="dish-info">
-                <div class="dish-rating">
+                <!-- <div class="dish-rating">
                     <i data-feather="star" class="fill-star"></i> 4.8
-                </div>
-                <h3>Handi Mutton</h3>
-                <p class="dish-desc">Spicy & Delicious</p>
+                </div> -->
+                <h3>{{item.name}}</h3>
+                <p class="dish-desc">{{item.description}}</p>
             </div>
                 <div class="dish-footer">
-                <span class="price">$50.99</span>
-                <button class="add-btn">Add</button>
+                <span class="price">{{item.price}}</span>
+                <button class="add-btn">Add to cart</button>
             </div>
         </div>
-
+        {% endfor %}
+        {% else %}
         <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="Fav Dish">
-                <button class="wishlist-btn text-primary"><i data-feather="heart" style="fill: var(--primary);"></i></button>
-            </div>
             <div class="dish-info">
-                <div class="dish-rating">
-                    <i data-feather="star" class="fill-star"></i> 4.5
+                <div class="dish-info-note">
+                    <h3>You have no favorite items yet</h3>
+                    <p class="dish-desc">Make an order today to get started • <a href="{{url_for('routes.menu')}}" target="_blank">Order Now</a></p>
                 </div>
-                <h3>Spicy Curry</h3>
-                <p class="dish-desc">Rich flavors</p>
-            </div>
-            <div class="dish-footer">
-                <span class="price">$25.99</span>
-                <button class="add-btn">Add</button>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>

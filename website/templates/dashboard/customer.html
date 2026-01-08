@@ -22,6 +22,7 @@ Breakfast Bar | Dashboard
     <!-- Mobile Nav Placeholder (Hidden on Desktop) -->
     {% include '/dashboard/assets/customer-mobile-nav.html' %}
 
+    {% if data %}
     <!-- Main Content Area -->
     <main class="dashboard-content">
 
@@ -40,6 +41,9 @@ Breakfast Bar | Dashboard
         <!--Settings Tab-->
         {% include '/dashboard/assets/customer-settings.html' %}
     </main>
+    {% else %}
+    <h1>Your data could not be retrieved. Re-authenticate or contact support</h1>
+    {% endif %}
 </section>
 {% endblock %}
 
@@ -49,35 +53,39 @@ Breakfast Bar | Dashboard
 <script>
     feather.replace();
 
+    const TAB_STORAGE_KEY = "customerDashboardActiveTab";
+
     function switchTab(tabId) {
         // 1. Hide all tab contents
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => {
+        document.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
         });
 
-        // 2. Remove active class from sidebar links
-        const links = document.querySelectorAll('.sidebar-link, .mobile-nav-link');
-        links.forEach(link => {
+        // 2. Remove active class from sidebar & mobile links
+        document.querySelectorAll('.sidebar-link, .mobile-nav-link').forEach(link => {
             link.classList.remove('active');
         });
 
-        // 3. Show the selected tab content
+        // 3. Show selected tab
         const selectedContent = document.getElementById(tabId);
         if (selectedContent) {
             selectedContent.classList.add('active');
+            localStorage.setItem(TAB_STORAGE_KEY, tabId);
         }
 
-        // 4. Highlight the sidebar link (and mobile link) that matches
-        // Simple way: check the onclick attribute or text content
-        links.forEach(link => {
-            if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(tabId)) {
+        // 4. Activate matching sidebar & mobile nav links
+        document.querySelectorAll('.sidebar-link, .mobile-nav-link').forEach(link => {
+            const action = link.getAttribute('onclick');
+            if (action && action.includes(`'${tabId}'`)) {
                 link.classList.add('active');
             }
         });
-
-        // Re-render icons if needed (though usually not for display:none toggles)
-        // feather.replace();
     }
+
+    // Restore last active tab on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTab = localStorage.getItem(TAB_STORAGE_KEY) || 'dashboard';
+        switchTab(savedTab);
+    });
 </script>
 {% endblock %}

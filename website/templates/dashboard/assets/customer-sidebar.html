@@ -1,8 +1,8 @@
 <aside class="dashboard-sidebar">
     <div class="user-profile-summary">
-        <div class="user-avatar">AD</div>
-        <h3>Alex Doe</h3>
-        <p class="text-light">Foodie Member</p>
+        <div class="user-avatar">{{data['user']['first_name'][0]}}{{data['user']['last_name'][0]}}</div>
+        <h3>{{data['user']['first_name']}} {{data['user']['last_name']}}</h3>
+        <p class="text-dark">Foodie Member</p>
     </div>
     <nav class="sidebar-menu">
         <div class="sidebar-link active" onclick="switchTab('dashboard')">
@@ -20,7 +20,7 @@
         <div class="sidebar-link" onclick="switchTab('settings')">
             <i data-feather="settings"></i> Settings
         </div>
-        <div class="sidebar-link" style="color: var(--primary);">
+        <div class="sidebar-link" style="color: var(--primary);" onclick="window.location.href=`{{url_for('routes.logout')}}`">
             <i data-feather="log-out"></i> Logout
         </div>
     </nav>

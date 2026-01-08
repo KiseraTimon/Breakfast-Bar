@@ -1,9 +1,10 @@
 from . import routes
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request, session
 
 from flask_login import login_required, current_user
 
 from website.models import UserRole
+from website.services import DashboardService
 
 """Access rules for routes"""
 def is_verified_user():
@@ -39,7 +40,7 @@ def portal():
     return redirect(url_for('routes.logout'))
 
 # Customer Dashboard Route
-@routes.route("/dashboard")
+@routes.route("/dashboard", methods=['GET', 'POST'])
 @login_required
 def customer():
     if not is_customer():
@@ -50,10 +51,27 @@ def customer():
         }
 
         return redirect(url_for('routes.logout'))
+
+    # Dashboard Service Object
+    dashboard = DashboardService()
+
+    # POST Requests
+    if request.method == "POST":
+        pass
+
+    # Retrieving Details
+    data = dashboard.get_dashboard_data(
+        user_id=current_user.id
+    )
+
+    recents = data['recent_orders']
+    print(f"\n\n###Recent Orders\n{recents}")
+
     return render_template(
         "dashboard/customer.html",
         title="Dashboard",
-        user=current_user
+        user=current_user,
+        data=data
     )
 
 # Staff Dashboard
