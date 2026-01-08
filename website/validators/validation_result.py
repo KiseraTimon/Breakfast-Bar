@@ -1,32 +1,46 @@
 from typing import Any, Dict, List, Optional
 
+
 class ValidationResult:
-    """Class of expected validation outcomes"""
-    # Attributes
-    success: bool                           # Success State
-    object: Optional[Any] = None            # Payload
-    data: Optional[Dict[str, Any]] = None   # Processed Data
-    errors: Optional[List[str]] = None      # Errors
-    code: Optional[str] = None              # Output Category
+    """Result object for validation operations"""
 
-    # Successful Validation Events
-    @classmethod
-    def ok(cls, obj: Any = None, data: Dict[str, Any] = None, code: str = "ok"):
-        inst = cls()
-        inst.success = True
-        inst.object = obj
-        inst.data = data or {}
-        inst.errors = []
-        inst.code = code
-        return inst
+    def __init__(
+        self,
+        success: bool,
+        message: str = None,
+        code: str = None,
+        errors: List[str] = None,
+        data: Dict[str, Any] = None,
+        obj: Any = None
+    ):
+        self.success = success
+        self.message = message
+        self.code = code
+        self.errors = errors or []
+        self.data = data or {}
+        self.object = obj
 
-    # Failed Validation Events
     @classmethod
-    def fail(cls, msg: str, code: str = "error", errors: Optional[List[str]] = None):
-        inst = cls()
-        inst.success = False
-        inst.object = None
-        inst.data = {}
-        inst.errors = (errors or [msg])
-        inst.code = code
-        return inst
+    def ok(cls, message: str = "Success", code: str = "success", obj: Any = None, data: Dict = None):
+        """Create success result"""
+        return cls(
+            success=True,
+            message=message,
+            code=code,
+            obj=obj,
+            data=data
+        )
+
+    @classmethod
+    def fail(cls, message: str, code: str = "error", errors: List[str] = None):
+        """Create failure result"""
+        return cls(
+            success=False,
+            message=message,
+            code=code,
+            errors=errors or [message]
+        )
+
+    def __bool__(self):
+        """Allow if result: syntax"""
+        return self.success
