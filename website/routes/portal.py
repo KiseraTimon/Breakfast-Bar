@@ -64,9 +64,6 @@ def customer():
         user_id=current_user.id
     )
 
-    recents = data['recent_orders']
-    print(f"\n\n###Recent Orders\n{recents}")
-
     return render_template(
         "dashboard/customer.html",
         title="Dashboard",
