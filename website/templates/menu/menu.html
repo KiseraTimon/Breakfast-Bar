@@ -13,6 +13,7 @@ Breakfast Bar | Menu
 
 <!--Page Body-->
 {% block body %}
+{% if menu %}
 <!--Page Title-->
 {% include '/menu/assets/title.html' %}
 
@@ -21,6 +22,7 @@ Breakfast Bar | Menu
 
 <!--Menu Grid-->
 {% include '/menu/assets/grid.html' %}
+{% endif %}
 {% endblock %}
 
 <!--Independent JS-->

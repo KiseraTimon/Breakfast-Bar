@@ -1,110 +1,34 @@
 <!-- Menu Grid -->
 <section class="container section menu-list">
     <div class="dishes-grid">
-        <!-- Card 1 -->
+        {% if menu %}
+        {% for item in menu['items']%}
         <div class="dish-card">
             <div class="dish-image">
                 <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Kala Bhuna">
                 <button class="wishlist-btn"><i data-feather="heart"></i></button>
             </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.5</div>
-                <h3>Kala Bhuna</h3>
-                <p class="dish-desc">Traditional beef curry with rich spices.</p>
+            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food', item_id='2')}}`">
+                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> {{item.rating}}</div>
+                <h3>{{item.name}}</h3>
+                <p class="dish-desc">{{item.description}}</p>
                 <div class="dish-footer">
-                    <span class="price">$15.99</span>
+                    <span class="price">{{item.price}}</span>
                     <button class="add-btn">Add to cart</button>
                 </div>
             </div>
         </div>
-
-        <!-- Card 2 -->
-            <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Chicken Biryani">
-                    <button class="wishlist-btn"><i data-feather="heart"></i></button>
-            </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.8</div>
-                <h3>Chicken Biryani</h3>
-                <p class="dish-desc">Aromatic rice with tender chicken pieces.</p>
-                    <div class="dish-footer">
-                    <span class="price">$12.99</span>
-                    <button class="add-btn">Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-            <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="Spicy Masala">
-                    <button class="wishlist-btn"><i data-feather="heart"></i></button>
-            </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.9</div>
-                <h3>Spicy Masala</h3>
-                <p class="dish-desc">Spicy vegetable masala with distinct flavors.</p>
-                    <div class="dish-footer">
-                    <span class="price">$10.99</span>
-                    <button class="add-btn">Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_1.png')}}" alt="Egg Curry">
-                <button class="wishlist-btn"><i data-feather="heart"></i></button>
-            </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.4</div>
-                <h3>Egg Curry</h3>
-                <p class="dish-desc">Boiled eggs simmered in spicy gravy.</p>
-                <div class="dish-footer">
-                    <span class="price">$8.99</span>
-                    <button class="add-btn">Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Beef Steak">
-                <button class="wishlist-btn"><i data-feather="heart"></i></button>
-            </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.7</div>
-                <h3>Beef Steak</h3>
-                <p class="dish-desc">Grilled beef steak with side vegetables.</p>
-                <div class="dish-footer">
-                    <span class="price">$22.99</span>
-                    <button class="add-btn">Add to cart</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="dish-card">
-            <div class="dish-image">
-                <img src="{{url_for('static', filename='images/home/dish_3.png')}}" alt="Vegetable Soup">
-                <button class="wishlist-btn"><i data-feather="heart"></i></button>
-            </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food')}}`">
-                <div class="dish-rating"><i data-feather="star" class="fill-star"></i> 4.6</div>
-                <h3>Vegetable Soup</h3>
-                    <p class="dish-desc">Healthy soup with fresh garden vegetables.</p>
-                <div class="dish-footer">
-                    <span class="price">$7.99</span>
-                    <button class="add-btn">Add to cart</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="see-more-container">
+        {% endfor %}
+        <div class="see-more-container">
             <button class="btn btn-outline">Load More</button>
+        </div>
+        {% else %}
+        <div class="dish-card">
+            <div class="dish-info">
+                <h3>No menu items to show yet</h3>
+                <p class="dish-desc">The staff is working hard to ensure you have something to munch on soon</p>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </section>
