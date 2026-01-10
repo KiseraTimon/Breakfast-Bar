@@ -5,6 +5,8 @@ from .user_repository import UserRepository
 from .customer_repository import CustomerRepository
 from .favorite_repository import FavoriteRepository
 from .review_repository import ReviewRepository
+from .food_item_repository import FoodItemRepository
+from .category_repository import CategoryRepository
 
 __all__ = [
     "BaseRepository",
@@ -12,5 +14,7 @@ __all__ = [
     "UserRepository",
     "CustomerRepository",
     "FavoriteRepository",
-    "ReviewRepository"
+    "ReviewRepository",
+    "FoodItemRepository",
+    "CategoryRepository"
 ]
