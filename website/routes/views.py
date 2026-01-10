@@ -1,7 +1,9 @@
 from . import routes
-from flask import render_template
+from flask import render_template, redirect, url_for, flash, request
 
 from flask_login import current_user
+
+from website.services import MenuService
 
 # Homepage Route
 @routes.route("/")
@@ -22,23 +24,63 @@ def menu():
         user = current_user
     else:
         user = None
+
+    service = MenuService()
+
+    # Get query parameters
+    category_id = request.args.get('category', type=int)
+    search = request.args.get('search', type=str)
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 20, type=int)
+
+    # Get user ID if logged in
+    user_id = user.id if user else None
+
+    # Get menu data
+    menu_data = service.get_menu_data(
+        category_id=category_id,
+        search=search,
+        page=page,
+        per_page=per_page,
+        user_id=user_id
+    )
+
     return render_template(
         "menu/menu.html",
         title="Menu",
-        user=user
+        user=user,
+        menu=menu_data
     )
 
 # Food Details
-@routes.route("/item")
-def food():
+@routes.route("/menu/<int:item_id>")
+def food(item_id):
+    """
+    Individual food item detail page.
+    Shows full details, ingredients, reviews, etc.
+    """
     if current_user.is_authenticated:
         user = current_user
     else:
         user = None
+
+    service = MenuService()
+
+    user_id = user.id if user else None
+
+    item_data = service.get_food_item_details(
+        food_item_id=item_id,
+        user_id=user_id
+    )
+
+    if not item_data:
+        abort(404)
+
     return render_template(
         "menu/food-details.html",
         title="Food",
-        user=user
+        user=user,
+        food=item_data
     )
 
 # Services Route
