@@ -56,7 +56,7 @@ class DashboardService:
                 'last_login_at': user.last_login_at.isoformat() if user.last_login_at else None
             }
         except Exception as e:
-            errhandler(e, log="get_user_details", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return None
 
     def update_user_profile(
@@ -93,7 +93,7 @@ class DashboardService:
             )
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="update_user_profile", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return ValidationResult.fail(
                 "Failed to update profile",
                 code="update_error"
@@ -142,7 +142,7 @@ class DashboardService:
                 'active_orders_count': active_orders
             }
         except Exception as e:
-            errhandler(e, log="get_user_metrics", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return self._empty_metrics()
 
     def _empty_metrics(self) -> Dict[str, Any]:
@@ -192,7 +192,7 @@ class DashboardService:
                 'total_pages': (total + per_page - 1) // per_page
             }
         except Exception as e:
-            errhandler(e, log="get_user_orders", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return {'orders': [], 'total': 0, 'page': page, 'per_page': per_page}
 
     def get_recent_orders(self, user_id: int, limit: int = 5) -> List[Dict[str, Any]]:
@@ -207,7 +207,7 @@ class DashboardService:
             orders = self.order_repo.get_recent_orders(customer_id, limit)
             return [self._format_order(order) for order in orders]
         except Exception as e:
-            errhandler(e, log="get_recent_orders", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return []
 
     def get_active_orders(self, user_id: int) -> List[Dict[str, Any]]:
@@ -225,7 +225,7 @@ class DashboardService:
             all_active = pending + preparing
             return [self._format_order(order) for order in all_active]
         except Exception as e:
-            errhandler(e, log="get_active_orders", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return []
 
     def _format_order(self, order: Order) -> Dict[str, Any]:
@@ -269,7 +269,7 @@ class DashboardService:
                 for fav in favorites
             ]
         except Exception as e:
-            errhandler(e, log="get_user_favorites", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return []
 
     def toggle_favorite(
@@ -302,7 +302,7 @@ class DashboardService:
                 )
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="toggle_favorite", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return ValidationResult.fail(
                 "Failed to update favorites",
                 code="favorite_error"
@@ -327,7 +327,7 @@ class DashboardService:
                 for review in reviews
             ]
         except Exception as e:
-            errhandler(e, log="get_user_reviews", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return []
 
     # Complete Dashboard Data
@@ -346,7 +346,7 @@ class DashboardService:
                 'reviews': self.get_user_reviews(user_id)
             }
         except Exception as e:
-            errhandler(e, log="get_dashboard_data", path="dashboard_service")
+            errhandler(e, log="dashboard_service", path="services")
             return {
                 'user': None,
                 'metrics': self._empty_metrics(),

@@ -48,7 +48,7 @@ class AuthService:
                 # Then Customer
                 return self.customer_repo.find_by_phone(identifier)
         except Exception as e:
-            errhandler(e, log="find_identity", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return None
 
     def identity_exists(self, email: str = None, phone: str = None) -> bool:
@@ -70,7 +70,7 @@ class AuthService:
 
             return False
         except Exception as e:
-            errhandler(e, log="identity_exists", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return True  # Fail safe - assume exists to prevent duplicates
 
     def resolve_user_from_session(self, session_store: dict) -> Optional[Union[User, Customer]]:
@@ -86,7 +86,7 @@ class AuthService:
 
             return self.find_identity(email)
         except Exception as e:
-            errhandler(e, log="resolve_user_from_session", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return None
 
     # Signin
@@ -131,7 +131,7 @@ class AuthService:
 
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="signin", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred during sign in",
                 code="signin_error"
@@ -191,7 +191,7 @@ class AuthService:
 
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="signup", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred creating your account",
                 code="signup_error"
@@ -271,7 +271,7 @@ class AuthService:
 
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="verify_code", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred during verification",
                 code="verify_error"
@@ -321,7 +321,7 @@ class AuthService:
             )
 
         except Exception as e:
-            errhandler(e, log="resend_verification_code", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred sending verification code",
                 code="resend_error"
@@ -363,7 +363,7 @@ class AuthService:
             )
 
         except Exception as e:
-            errhandler(e, log="request_password_reset", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred processing your request",
                 code="reset_request_error"
@@ -414,7 +414,7 @@ class AuthService:
             )
 
         except Exception as e:
-            errhandler(e, log="verify_reset_code", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred verifying code",
                 code="verify_code_error"
@@ -468,7 +468,7 @@ class AuthService:
 
         except Exception as e:
             db.session.rollback()
-            errhandler(e, log="reset_password", path="auth_service")
+            errhandler(e, log="auth_service", path="services")
             return ValidationResult.fail(
                 "An error occurred resetting your password",
                 code="password_reset_error"

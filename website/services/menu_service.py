@@ -99,7 +99,7 @@ class MenuService:
                 }
             }
         except Exception as e:
-            errhandler(e, log="get_menu_data", path="menu_service")
+            errhandler(e, log="menu_service", path="services")
             return {
                 'categories': [],
                 'items': [],
@@ -157,7 +157,7 @@ class MenuService:
                 }
             }
         except Exception as e:
-            errhandler(e, log="get_category_items", path="menu_service")
+            errhandler(e, log="menu_service", path="services")
             return {
                 'category': None,
                 'items': [],
@@ -202,7 +202,7 @@ class MenuService:
                 }
             }
         except Exception as e:
-            errhandler(e, log="search_items", path="menu_service")
+            errhandler(e, log="menu_service", path="services")
             return {
                 'search_term': search_term,
                 'items': [],
@@ -299,7 +299,7 @@ class MenuService:
                 'created_at': item.created_at.isoformat() if item.created_at else None
             }
         except Exception as e:
-            errhandler(e, log="get_food_item_details", path="menu_service")
+            errhandler(e, log="menu_service", path="services")
             return None
 
     # Featured Items
@@ -320,7 +320,7 @@ class MenuService:
                 'newest': [self._format_menu_item(item) for item in newest]
             }
         except Exception as e:
-            errhandler(e, log="get_featured_items", path="menu_service")
+            errhandler(e, log="menu_service", path="services")
             return {
                 'popular': [],
                 'top_rated': [],
