@@ -36,6 +36,10 @@ class Order(db.Model, TimestampMixin):
     notes: Mapped[str | None] = mapped_column(String(500))
     completed_at: Mapped[datetime | None]
 
+    points_earned: Mapped[int] = mapped_column(default=0, nullable=False)
+    points_redeemed: Mapped[int] = mapped_column(default=0, nullable=False)
+    discount_amount: Mapped[Decimal] = mapped_column(Numeric(10, 2), default=0, nullable=False)
+
     # Relationships
     customer = relationship('Customer', back_populates='orders')
     order_items = relationship('OrderItem', back_populates='order', cascade='all, delete-orphan')
@@ -69,6 +73,15 @@ class Order(db.Model, TimestampMixin):
         """Mark order as completed with timestamp"""
         self.status = OrderStatus.COMPLETED
         self.completed_at = datetime.now(timezone.utc)
+
+    def calculate_points_earned(self) -> int:
+        """
+        Calculate points earned from this order.
+        Rule: Every KES 100 spent = 10 points
+        """
+        # Only earn points on the amount actually paid (after discount)
+        amount_paid = self.total_amount - self.discount_amount
+        return int(amount_paid * 10)  # KES 100 = 10 points
 
     def __repr__(self):
         return f'<Order {self.order_number}>'

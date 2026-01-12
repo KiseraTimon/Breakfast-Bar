@@ -30,6 +30,9 @@ class User(db.Model, TimestampMixin, UserMixin):
     is_verified: Mapped[bool] = mapped_column(default=True, nullable=False)
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
+    points_balance: Mapped[int] = mapped_column(default=0, nullable=False)
+    lifetime_points_earned: Mapped[int] = mapped_column(default=0, nullable=False)
+
     # Relationships
     favorites = relationship('Favorite', back_populates='user', cascade='all, delete-orphan')
     reviews = relationship('Review', back_populates='user', cascade='all, delete-orphan')
@@ -56,6 +59,26 @@ class User(db.Model, TimestampMixin, UserMixin):
         """Modifies User Account Status"""
         self.is_verified = active
         db.session.commit()
+
+    def add_points(self, points: int) -> None:
+        """Add points to user balance"""
+        self.points_balance += points
+        self.lifetime_points_earned += points
+
+    def redeem_points(self, points: int) -> bool:
+        """Redeem points (returns False if insufficient balance)"""
+        if self.points_balance >= points:
+            self.points_balance -= points
+            return True
+        return False
+
+    def points_to_cash(self, points: int = None) -> float:
+        """
+        Convert points to cash value.
+        Default: 100 points = KES 100
+        """
+        points_to_convert = points if points is not None else self.points_balance
+        return points_to_convert / 100.0  # 100 points = KES 100
 
     def __repr__(self):
         return f'<User {self.email}>'
