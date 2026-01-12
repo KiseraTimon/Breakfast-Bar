@@ -32,4 +32,29 @@ Breakfast Bar | Menu
 
 <!--Independent JS-->
 {% block js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchButton = document.querySelector('.btn.btn-primary');
+    const filterSection = document.querySelector('.advanced-search-container');
+
+    searchButton.addEventListener('click', () => {
+        const params = new URLSearchParams();
+
+        // Search input
+        const searchInput = filterSection.querySelector('.search-input').value;
+        if (searchInput) params.append('search', searchInput);
+
+        // Category select
+        const categorySelect = filterSection.querySelector('.search-select');
+        if (categorySelect && categorySelect.value) {
+            params.append('category', categorySelect.value);
+        }
+
+        // Redirecting
+        const menuUrl = searchButton.dataset.url;
+        window.location.href = `${menuUrl}?${params.toString()}`;
+    });
+});
+</script>
+
 {% endblock %}
