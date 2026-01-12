@@ -4,6 +4,9 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user
 
 from website.services import MenuService
+from website.helpers import serializer
+
+from utils import errhandler
 
 # Homepage Route
 @routes.route("/")
@@ -20,6 +23,9 @@ def homepage():
 # Menu Route
 @routes.route("/menu")
 def menu():
+
+    serializer = get_serializer()
+
     if current_user.is_authenticated:
         user = current_user
     else:
@@ -49,16 +55,24 @@ def menu():
         "menu/menu.html",
         title="Menu",
         user=user,
-        menu=menu_data
+        menu=menu_data,
+        serializer=serializer
     )
 
 # Food Details
 @routes.route("/menu/<int:item_id>")
 def food(item_id):
-    """
-    Individual food item detail page.
-    Shows full details, ingredients, reviews, etc.
-    """
+
+    # Extracting Real ID
+    try:
+        real_id = get_serializer(item_id)
+    except Exception as e:
+        errhandler(e, log="food_item", path="routes")
+
+        flash("This is an invalid food item", category="error")
+
+        return redirect(url_for("routes.menu"))
+
     if current_user.is_authenticated:
         user = current_user
     else:
@@ -69,12 +83,9 @@ def food(item_id):
     user_id = user.id if user else None
 
     item_data = service.get_food_item_details(
-        food_item_id=item_id,
+        food_item_id=real_id,
         user_id=user_id
     )
-
-    if not item_data:
-        abort(404)
 
     return render_template(
         "menu/food-details.html",

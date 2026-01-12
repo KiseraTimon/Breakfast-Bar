@@ -8,7 +8,7 @@
                 <img src="{{url_for('static', filename='images/home/dish_2.png')}}" alt="Kala Bhuna">
                 <button class="wishlist-btn"><i data-feather="heart"></i></button>
             </div>
-            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food', item_id='2')}}`">
+            <div class="dish-info" onclick="window.location.href=`{{url_for('routes.food', item_id=serializer.dumps(item.id))}}`">
                 <div class="dish-rating"><i data-feather="star" class="fill-star"></i> {{item.rating}}</div>
                 <h3>{{item.name}}</h3>
                 <p class="dish-desc">{{item.description}}</p>
