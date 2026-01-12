@@ -38,10 +38,10 @@ def menu():
 
     # Get menu data
     menu_data = service.get_menu_data(
-        category_id=category_id,
-        search=search,
-        page=page,
-        per_page=per_page,
+        category_id=category_id if category_id else None,
+        search=search if search else None,
+        page=page if page else None,
+        per_page=per_page if per_page else None,
         user_id=user_id
     )
 

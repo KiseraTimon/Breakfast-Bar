@@ -14,14 +14,19 @@ Breakfast Bar | Menu
 <!--Page Body-->
 {% block body %}
 {% if menu %}
-<!--Page Title-->
-{% include '/menu/assets/title.html' %}
+    </section>
+    <!--Page Title-->
+    {% include '/menu/assets/title.html' %}
 
-<!--Content Filter-->
-{% include '/menu/assets/filter.html' %}
+    <!--Content Filter-->
+    {% include '/menu/assets/filter.html' %}
 
-<!--Menu Grid-->
-{% include '/menu/assets/grid.html' %}
+    <!--Menu Grid-->
+    {% include '/menu/assets/grid.html' %}
+{% else %}
+    <section class="container section menu-list">
+        <p>There are no menu items to show at the moment</p>
+    </section>
 {% endif %}
 {% endblock %}
 
