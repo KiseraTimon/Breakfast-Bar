@@ -11,7 +11,7 @@ class Category(db.Model, TimestampMixin):
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     description: Mapped[str | None] = mapped_column(String(255))
     sort_order: Mapped[int] = mapped_column(default=0)
-    is_verified: Mapped[bool]
+    is_active: Mapped[bool]
 
     # Relationships
     food_items = relationship('FoodItem', back_populates='category')
