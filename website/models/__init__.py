@@ -14,6 +14,7 @@ from .payment import Payment, PaymentMethod, PaymentStatus
 from .favorite import Favorite
 from .review import Review
 from .daily_sales_summary import DailySalesSummary
+from .points_transaction import PointsTransaction, PointsTransactionType
 
 # Event listeners must be imported to register
 from . import events
