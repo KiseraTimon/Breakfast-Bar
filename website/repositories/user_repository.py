@@ -34,3 +34,18 @@ class UserRepository(BaseRepository[User]):
 
         stmt = select(User).where(or_(*conditions))
         return db.session.execute(stmt).scalar_one_or_none()
+
+    def add_points(self, user: User, points: int) -> User:
+        """Add points to user balance"""
+        user.add_points(points)
+        db.session.commit()
+        db.session.refresh(user)
+        return user
+
+    def redeem_points(self, user: User, points: int) -> bool:
+        """Redeem points from user balance"""
+        success = user.redeem_points(points)
+        if success:
+            db.session.commit()
+            db.session.refresh(user)
+        return success
