@@ -6,7 +6,8 @@ from website.repositories import (
     UserRepository,
     OrderRepository,
     FavoriteRepository,
-    ReviewRepository
+    ReviewRepository,
+    PointsRepository
 )
 from website.validators import ValidationResult
 from utils import errhandler
@@ -24,12 +25,14 @@ class DashboardService:
         user_repo: UserRepository = None,
         order_repo: OrderRepository = None,
         favorite_repo: FavoriteRepository = None,
-        review_repo: ReviewRepository = None
+        review_repo: ReviewRepository = None,
+        points_repo: PointsRepository = None
     ):
         self.user_repo = user_repo or UserRepository()
         self.order_repo = order_repo or OrderRepository()
         self.favorite_repo = favorite_repo or FavoriteRepository()
         self.review_repo = review_repo or ReviewRepository()
+        self.points_repo = points_repo or PointsRepository()
 
     # User Details
     def get_user_details(self, user_id: int) -> Optional[Dict[str, Any]]:
@@ -330,6 +333,21 @@ class DashboardService:
             errhandler(e, log="dashboard_service", path="services")
             return []
 
+    # Points Logic
+    def get_user_points(self, user_id: int) -> Dict[str, Any]:
+        """Get user's points information"""
+        from website.services import PointsService
+
+        points_service = PointsService()
+        return points_service.get_points_summary(user_id)
+
+    def get_points_history(self, user_id: int, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get user's points transaction history"""
+        from website.services import PointsService
+
+        points_service = PointsService()
+        return points_service.get_points_history(user_id, limit)
+
     # Complete Dashboard Data
     def get_dashboard_data(self, user_id: int) -> Dict[str, Any]:
         """
@@ -340,6 +358,7 @@ class DashboardService:
             return {
                 'user': self.get_user_details(user_id),
                 'metrics': self.get_user_metrics(user_id),
+                'points': self.get_user_points(user_id),
                 'recent_orders': self.get_recent_orders(user_id, limit=5),
                 'active_orders': self.get_active_orders(user_id),
                 'favorites': self.get_user_favorites(user_id),
@@ -350,6 +369,7 @@ class DashboardService:
             return {
                 'user': None,
                 'metrics': self._empty_metrics(),
+                'points': {'points_balance': 0, 'lifetime_points': 0, 'cash_value': 0.0},
                 'recent_orders': [],
                 'active_orders': [],
                 'favorites': [],
