@@ -24,7 +24,7 @@ def homepage():
 @routes.route("/menu")
 def menu():
 
-    serializer = get_serializer()
+    serial = serializer()
 
     if current_user.is_authenticated:
         user = current_user
@@ -56,7 +56,7 @@ def menu():
         title="Menu",
         user=user,
         menu=menu_data,
-        serializer=serializer
+        serializer=serial
     )
 
 # Food Details

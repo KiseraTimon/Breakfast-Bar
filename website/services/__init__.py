@@ -1,11 +1,11 @@
 from .auth_service import AuthService
 from .dashboard_service import DashboardService
 from .menu_service import MenuService
-from .points_service import PointsRepository
+from .points_service import PointsService
 
 __all__ = [
     "AuthService",
     "DashboardService",
     "MenuService",
-    "PointsRepository"
+    "PointsService"
 ]
