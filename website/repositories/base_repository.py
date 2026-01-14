@@ -20,9 +20,9 @@ class BaseRepository(Generic[T]):
         stmt = select(self.model).limit(per_page).offset((page - 1) * per_page)
         return db.session.execute(stmt).scalars().all()
 
-    def create(self, **kwargs) -> T:
+    def create(self, instance: T) -> T:
         """Create new record"""
-        instance = self.model(**kwargs)
+        # instance = self.model(**kwargs)
         db.session.add(instance)
         db.session.commit()
         return instance
