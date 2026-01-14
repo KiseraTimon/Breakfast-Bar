@@ -53,31 +53,52 @@ Breakfast Bar | Dashboard
 {% block js %}
 <!-- Initialize Feather Icons & Tab Logic -->
 <script>
-        feather.replace();
+    feather.replace();
 
-        function navigate(tabId, el) {
-            // 1. Hide all screens
-            document.querySelectorAll('.tab-screen').forEach(screen => {
-                screen.classList.remove('active');
-            });
-            // 2. Show target
-            document.getElementById(tabId).classList.add('active');
+    const TAB_STORAGE_KEY = "adminDashboardActiveTab";
 
-            // 3. Update Sidebar
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            el.classList.add('active');
+    function navigate(tabId, clickedItem = null) {
+        document.querySelectorAll('.tab-screen').forEach(screen => {
+            screen.classList.remove('active');
+        });
 
-            // 4. Update Header
-            const titles = {
-                'overview': 'Main Dashboard',
-                'orders': 'Order Management',
-                'menu': 'Menu Items',
-                'customers': 'Customers',
-                'analytics': 'Analytics'
-            };
-            document.getElementById('header-title').textContent = titles[tabId];
+        const selectedScreen = document.getElementById(tabId);
+        if (selectedScreen) {
+            selectedScreen.classList.add('active');
+            localStorage.setItem(TAB_STORAGE_KEY, tabId);
         }
-    </script>
+
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        if (clickedItem) {
+            clickedItem.classList.add('active');
+        } else {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const action = item.getAttribute('onclick');
+                if (action && action.includes(`'${tabId}'`)) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        const titles = {
+            overview: 'Main Dashboard',
+            orders: 'Order Management',
+            menu: 'Menu Items',
+            customers: 'Customers',
+            analytics: 'Analytics'
+        };
+
+        document.getElementById('header-title').textContent =
+            titles[tabId] || 'Dashboard';
+    }
+
+    // Run as early as possible
+    const savedTab = localStorage.getItem(TAB_STORAGE_KEY) || 'overview';
+    document.addEventListener('DOMContentLoaded', () => {
+        navigate(savedTab);
+    });
+</script>
 {% endblock %}

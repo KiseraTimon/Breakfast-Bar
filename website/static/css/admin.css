@@ -480,7 +480,6 @@ body {
 /* Tab logic (Hide/Show) */
 .tab-screen {
     display: none;
-    animation: fadeIn 0.4s ease;
 }
 
 .tab-screen.active {
