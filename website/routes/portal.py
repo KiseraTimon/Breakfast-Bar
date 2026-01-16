@@ -6,51 +6,64 @@ from flask_login import login_required, current_user
 from website.models import UserRole
 from website.services import DashboardService
 
-"""Access rules for routes"""
-def is_verified_user():
-    return current_user.is_authenticated and current_user.is_verified
+from functools import wraps
 
-def is_customer():
-    return is_verified_user() and current_user.role == UserRole.CUSTOMER
+# Decorator for Dashboard Access Roles
+def roles_required(*allowed_roles):
+    """
+    Restricts access to users with one of the specified roles.
+    Usage:
+        @roles_required(UserRole.ADMIN)
+        @roles_required(UserRole.STAFF, UserRole.ADMIN)
+    """
+    def decorator(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if (
+                not current_user.is_authenticated or
+                current_user.role not in allowed_roles
+            ):
+                session['logout'] = {
+                    "message": "You are not authorized to access this page. Re-authenticate to continue",
+                    "category": "error"
+                }
+                return redirect(url_for('routes.logout'))
+            return f(*args, **kwargs)
+        return wrapped
+    return decorator
 
-def is_staff():
-    return is_verified_user() and current_user.role == UserRole.STAFF
 
-def is_admin():
-    return is_verified_user() and current_user.role == UserRole.ADMIN
-
-# Dashboard Route
 @routes.route("/portal")
 @login_required
 def portal():
+    """
+    Central dispatcher that routes authenticated users
+    to their correct dashboard based on role.
+    """
+    role = current_user.role
 
-    if is_customer():
-        return redirect(url_for('routes.customer'))
-
-    if is_staff():
-        return redirect(url_for('routes.staff'))
-
-    if is_admin():
+    if role == UserRole.ADMIN:
         return redirect(url_for('routes.admin'))
 
+    if role == UserRole.STAFF:
+        return redirect(url_for('routes.staff'))
+
+    if role == UserRole.CUSTOMER:
+        return redirect(url_for('routes.customer'))
+
+    # Fallback safety
     session['logout'] = {
-        "message": "You are not authorized to access this page. Re-authenticate to continue",
+        "message": "Invalid account role. Contact support.",
         "category": "error"
     }
     return redirect(url_for('routes.logout'))
 
+
 # Customer Dashboard Route
 @routes.route("/dashboard", methods=['GET', 'POST'])
 @login_required
+@roles_required(UserRole.CUSTOMER)
 def customer():
-    if not is_customer():
-        # Logout Data
-        session['logout'] = {
-            "message": "You are not authorized to access this page. Re-authenticate to continue",
-            "category": "error"
-        }
-
-        return redirect(url_for('routes.logout'))
 
     # Dashboard Service Object
     dashboard = DashboardService()
@@ -74,15 +87,9 @@ def customer():
 # Staff Dashboard
 @routes.route("/staff")
 @login_required
+@roles_required(UserRole.STAFF, UserRole.ADMIN)
 def staff():
-    if not is_staff():
-        # Logout Data
-        session['logout'] = {
-            "message": "You are not authorized to access this page. Re-authenticate to continue",
-            "category": "error"
-        }
 
-        return redirect(url_for('routes.logout'))
     return render_template(
         "dashboard/customer.html",
         title="Dashboard",
@@ -91,15 +98,10 @@ def staff():
 
 # Admin Dashboard Route
 @routes.route("/administrator")
+@login_required
+@roles_required(UserRole.ADMIN)
 def admin():
-    if not is_admin():
-        # Logout Data
-        session['logout'] = {
-            "message": "You are not authorized to access this page. Re-authenticate to continue",
-            "category": "error"
-        }
 
-        return redirect(url_for('routes.logout'))
     return render_template(
         "dashboard/admin.html",
         title="Dashboard",
